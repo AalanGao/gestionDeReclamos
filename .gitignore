@@ -1,0 +1,74 @@
+# Java class files
+*.class
+
+# Package Files
+*.jar
+*.war
+*.ear
+
+# Maven specific
+/target/
+.mvn/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+pom.xml.md5
+pom.xml.sha1
+
+# Logs
+*.log
+
+# IntelliJ IDEA specific
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Eclipse specific
+.classpath
+.project
+.settings/
+
+# VS Code specific
+.vscode/
+
+# MacOS specific
+.DS_Store
+
+# Windows specific
+Thumbs.db
+
+# Sensitive files
+application.properties
+application.yml
+
+# Gradle specific
+.gradle/
+build/
+.gradle/caches/
+.gradle/wrapper/
+gradle-app.setting
+
+# Node.js specific (if using Node for front-end)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+
+# Test output
+/test-output/
+
+# Generated files
+*.log
+*.class
+*.pyc
+*.jar
+*.war
+
+# Misc
+*.env
