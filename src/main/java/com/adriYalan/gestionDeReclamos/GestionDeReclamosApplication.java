@@ -8,7 +8,7 @@ public class GestionDeReclamosApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(GestionDeReclamosApplication.class, args);
-        System.out.println("Hello world");
+
 	}
 
 }
