@@ -1,4 +1,9 @@
 package com.adriYalan.gestionDeReclamos.repository;
 
-public class UbicacionRepository {
+import com.adriYalan.gestionDeReclamos.entity.Ubicacion;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface UbicacionRepository extends JpaRepository<Ubicacion, Integer> {
 }
