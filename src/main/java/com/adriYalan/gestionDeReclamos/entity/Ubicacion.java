@@ -8,7 +8,7 @@ public class Ubicacion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idUbicacion")
+    @Column(name = "idubicacion")
     private int idUbicacion;
 
     @Column(name = "descripcion", nullable = false, length = 100)

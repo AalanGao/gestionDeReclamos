@@ -27,6 +27,8 @@ public class UnidadDAO {
         return instancia;
     }
 
+    public void setRepository(UnidadRepository repository) {this.unidadRepository = repository;}
+
     // Método para obtener todas las unidades
     public List<Unidad> getAllUnidades() {
         return unidadRepository.findAll();

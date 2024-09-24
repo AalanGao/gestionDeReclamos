@@ -2,6 +2,9 @@ package com.adriYalan.gestionDeReclamos.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "edificios")
 public class Edificio {
@@ -14,6 +17,22 @@ public class Edificio {
     private String nombre;
 
     private String direccion;
+
+    @OneToMany(mappedBy = "edificio", fetch = FetchType.EAGER)
+    private List<Unidad> unidades;
+
+    @OneToMany(mappedBy = "edificio", fetch = FetchType.EAGER)
+    private List<Reclamo> reclamos;
+
+    public Edificio() {
+    }
+
+    public Edificio(String nombre, String direccion) {
+        this.nombre = nombre;
+        this.direccion = direccion;
+        this.unidades = new ArrayList<>();
+        this.reclamos = new ArrayList<>();
+    }
 
     // Getters y Setters
 
@@ -39,5 +58,32 @@ public class Edificio {
 
     public void setDireccion(String direccion) {
         this.direccion = direccion;
+    }
+
+    public List<Unidad> getUnidades() {
+        return unidades;
+    }
+
+    public void setUnidades(List<Unidad> unidades) {
+        this.unidades = unidades;
+    }
+
+    public List<Reclamo> getReclamos() {
+        return reclamos;
+    }
+
+    public void setReclamos(List<Reclamo> reclamos) {
+        this.reclamos = reclamos;
+    }
+
+    @Override
+    public String toString() {
+        return "Edificio{" +
+                "codigo=" + codigo +
+                ", nombre='" + nombre + '\'' +
+                ", direccion='" + direccion + '\'' +
+                ", unidades=" + unidades +
+                ", reclamos=" + reclamos +
+                '}';
     }
 }

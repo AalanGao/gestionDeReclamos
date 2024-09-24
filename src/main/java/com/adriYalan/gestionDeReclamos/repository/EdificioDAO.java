@@ -27,6 +27,8 @@ public class EdificioDAO {
         return instancia;
     }
 
+    public void setRepository(EdificioRepository repository) {this.edificioRepository = repository;}
+
     // Método para obtener todos los edificios
     public List<Edificio> getAllEdificios() {
         return edificioRepository.findAll();

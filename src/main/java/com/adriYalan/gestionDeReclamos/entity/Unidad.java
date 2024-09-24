@@ -2,6 +2,10 @@ package com.adriYalan.gestionDeReclamos.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Entity
 @Table(name = "unidades")
 public class Unidad {
@@ -20,9 +24,28 @@ public class Unidad {
     @Column(nullable = false, length = 1)
     private String habitado;
 
-    @ManyToOne
-    @JoinColumn(name = "codigoEdificio")  // Corresponde a la FK en SQL
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "codigoedificio")  // Corresponde a la FK en SQL
     private Edificio edificio;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "duenios",
+            joinColumns = @JoinColumn(name = "identificador"),  // Columna de la tabla unidades
+            inverseJoinColumns = @JoinColumn(name = "documento")  // Columna de la tabla personas
+    )
+    private List<Persona> duenios;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "inquilinos",
+            joinColumns = @JoinColumn(name = "identificador"),  // Columna de la tabla unidades
+            inverseJoinColumns = @JoinColumn(name = "documento")  // Columna de la tabla personas
+    )
+    private List<Persona> inquilinos;
+
+    /*@OneToMany(mappedBy = "unidad", fetch = FetchType.EAGER)
+    private List<Reclamo> reclamos = new ArrayList<>();*/
 
     public Unidad() {
     }
@@ -32,9 +55,10 @@ public class Unidad {
         this.numero = numero;
         this.edificio = edificio;
         this.habitado = "N";  // Por defecto no habitado
+        this.duenios = new ArrayList<Persona>();
+        this.inquilinos = new ArrayList<Persona>();
+        //this.reclamos = new ArrayList<>();
     }
-
-    // Getters y Setters
 
     public int getIdentificador() {
         return identificador;
@@ -87,4 +111,43 @@ public class Unidad {
     public void liberar() {
         this.habitado = "N";
     }
+
+    public List<Persona> getDuenios() {
+        return duenios;
+    }
+
+    public void setDuenios(List<Persona> duenios) {
+        this.duenios = duenios;
+    }
+
+    public List<Persona> getInquilinos() {
+        return inquilinos;
+    }
+
+    public void setInquilinos(List<Persona> inquilinos) {
+        this.inquilinos = inquilinos;
+    }
+
+    /*public List<Reclamo> getReclamos() {
+        return reclamos;
+    }
+
+    public void setReclamos(List<Reclamo> reclamos) {
+        this.reclamos = reclamos;
+    }*/
+
+    @Override
+    public String toString() {
+        return "Unidad{" +
+                "identificador=" + identificador +
+                ", piso='" + piso + '\'' +
+                ", numero='" + numero + '\'' +
+                ", habitado='" + habitado + '\'' +
+                ", edificioCodigo='" + (edificio != null ? edificio.getCodigo() : "N/A") + '\'' + // Evitar llamar a toString()
+                ", duenios=" + duenios +
+                ", inquilinos=" + inquilinos +
+                //", reclamos=" + reclamos +
+                '}';
+    }
+
 }

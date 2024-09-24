@@ -3,12 +3,12 @@ package com.adriYalan.gestionDeReclamos.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "tiposReclamo")
+@Table(name = "tiposreclamo")
 public class TipoReclamo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idTipoReclamo")
+    @Column(name = "idtiporeclamo")
     private int idTipoReclamo;
 
     @Column(name = "descripcion", nullable = false, length = 200)

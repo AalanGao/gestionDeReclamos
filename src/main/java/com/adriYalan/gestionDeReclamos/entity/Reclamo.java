@@ -9,6 +9,7 @@ public class Reclamo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idreclamo")
     private int idReclamo;
 
     @ManyToOne
@@ -20,7 +21,7 @@ public class Reclamo {
     private Edificio edificio;  // Edificio relacionado
 
     @ManyToOne
-    @JoinColumn(name = "idUbicacion", nullable = true)
+    @JoinColumn(name = "idubicacion", nullable = true)
     private Ubicacion ubicacion;  // Ubicación del reclamo
 
     @ManyToOne
@@ -31,14 +32,14 @@ public class Reclamo {
     private String descripcion;
 
     @ManyToOne
-    @JoinColumn(name = "idTipoReclamo", nullable = false)
+    @JoinColumn(name = "idtiporeclamo", nullable = false)
     private TipoReclamo tipoReclamo;
 
     @ManyToOne
-    @JoinColumn(name = "idEstado", nullable = false)
+    @JoinColumn(name = "idestado", nullable = false)
     private EstadoReclamo estadoReclamo;
 
-    @Column(nullable = false)
+    @Column(name = "fechacreacion", nullable = false)
     private LocalDateTime fechaCreacion;
 
     // Constructor vacío para JPA
