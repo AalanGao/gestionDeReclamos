@@ -44,8 +44,8 @@ public class Unidad {
     )
     private List<Persona> inquilinos;
 
-    /*@OneToMany(mappedBy = "unidad", fetch = FetchType.EAGER)
-    private List<Reclamo> reclamos = new ArrayList<>();*/
+    @OneToMany(mappedBy = "unidad", fetch = FetchType.EAGER)
+    private List<Reclamo> reclamos = new ArrayList<>();
 
     public Unidad() {
     }
@@ -128,25 +128,32 @@ public class Unidad {
         this.inquilinos = inquilinos;
     }
 
-    /*public List<Reclamo> getReclamos() {
+    public List<Reclamo> getReclamos() {
         return reclamos;
     }
 
     public void setReclamos(List<Reclamo> reclamos) {
         this.reclamos = reclamos;
-    }*/
+    }
+
 
     @Override
     public String toString() {
+        StringBuilder reclamosInfo = new StringBuilder();
+        for (Reclamo reclamo : reclamos) {
+            reclamosInfo.append("Reclamo ID: ").append(reclamo.getIdReclamo())
+                    .append(", Ubicación: ").append(reclamo.getUbicacion())
+                    .append(", Descripción: ").append(reclamo.getDescripcion())
+                    .append("; ");
+        }
+
         return "Unidad{" +
                 "identificador=" + identificador +
                 ", piso='" + piso + '\'' +
                 ", numero='" + numero + '\'' +
                 ", habitado='" + habitado + '\'' +
-                ", edificioCodigo='" + (edificio != null ? edificio.getCodigo() : "N/A") + '\'' + // Evitar llamar a toString()
-                ", duenios=" + duenios +
-                ", inquilinos=" + inquilinos +
-                //", reclamos=" + reclamos +
+                ", edificio=" + (edificio != null ? edificio.getNombre() : "null") +
+                ", reclamos=[" + reclamosInfo + "]" +
                 '}';
     }
 
