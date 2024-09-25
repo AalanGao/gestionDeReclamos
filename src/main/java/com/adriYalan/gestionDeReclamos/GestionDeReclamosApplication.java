@@ -1,5 +1,6 @@
 package com.adriYalan.gestionDeReclamos;
 
+import com.adriYalan.gestionDeReclamos.controller.EdificioController;
 import com.adriYalan.gestionDeReclamos.controller.ReclamoController;
 import com.adriYalan.gestionDeReclamos.controller.UnidadController;
 import com.adriYalan.gestionDeReclamos.entity.Edificio;
@@ -12,6 +13,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.List;
 import java.util.Optional;
 
 @SpringBootApplication
@@ -50,6 +52,13 @@ public class GestionDeReclamosApplication implements CommandLineRunner {
 	@Autowired
 	ReclamoController reclamoController;
 
+	@Autowired
+	EdificioController edificioController;
+	@Autowired
+	EdificioRepository edificioRepository;
+	@Autowired
+	UnidadRepository unidadRepository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(GestionDeReclamosApplication.class, args);
 	}
@@ -57,26 +66,32 @@ public class GestionDeReclamosApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		/*List<Unidad> unidades = UnidadDAO.getInstancia().getAllUnidades();
+		/*List<Unidad> unidades = unidadRepository.findAll();
 		for (Unidad unidad : unidades) {
 			System.out.println(unidad);
 		}*/
 		/*Optional<Unidad> unidad = UnidadDAO.getInstancia().getUnidadById(8);
 		if (unidad.isPresent()) {
 			System.out.println(unidad);
-		}
+		}*/
 
-		Optional<Persona> persona = personaRepository.findById("CI 13230978");
+		/*Optional<Persona> persona = personaRepository.findById("CI 13230978");
 		if (persona.isPresent()) {
 			System.out.println(persona);
-		}
+		}*/
 
-		Optional<Edificio> edificio = edificioRepository.findById((long)1);
+
+		/*Optional<Edificio> edificio = edificioRepository.findById((long)1);
+
 		if (edificio.isPresent()) {
-			System.out.println(edificio);
-		}
+			for (Persona person : edificio.get().getDuenios()) {
+				System.out.println(person);
+			}
+		}*/
 
-		Optional<Reclamo> reclamo = reclamoRepository.findById(11);
+
+
+		/*Optional<Reclamo> reclamo = reclamoRepository.findById(11);
 		if (reclamo.isPresent()) {
 			System.out.println(reclamo);
 		}*/
@@ -85,12 +100,17 @@ public class GestionDeReclamosApplication implements CommandLineRunner {
 		//System.out.println(unidadController.inquilinosPorUnidad(1, "9", "2"));
 
 		//System.out.println(unidadController.dueniosPorUnidad(1, "9", "5"));
-		unidadController.agregarHabitanteUnidad(1, "9", "5", "DNI29988738");
+		//unidadController.agregarHabitanteUnidad(1, "1", "1", "DNI29988738");
 		//unidadController.agregarDuenioUnidad(1, "9", "5", "CI 13230978");
 		//unidadController.liberarUnidad(1, "9", "5");
 		//System.out.println(unidadController.dueniosPorUnidad(1, "9", "5"));
 
 		//reclamoController.agregarReclamo(1, "9","5", "DNI29988738", 1, "Prueba tenes que andar", 1, null);
+		//System.out.println(edificioController.getEdificios());
+		for (Unidad unidad : edificioController.getUnidadesPorEdificio(1)) {
+				System.out.println(unidad.estaHabitado());
+			}
+		}
 
 	}
-}
+
