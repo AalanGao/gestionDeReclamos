@@ -11,8 +11,21 @@ import java.util.Optional;
 @Component
 public class ReclamoDAO {
 
+    private static ReclamoDAO instancia;
+
     @Autowired
     private ReclamoRepository reclamoRepository;
+
+    // Constructor privado para el patrón singleton
+    private ReclamoDAO() {}
+
+    // Método para obtener la instancia del DAO
+    public static ReclamoDAO getInstancia() {
+        if (instancia == null) {
+            instancia = new ReclamoDAO();
+        }
+        return instancia;
+    }
 
     // Obtener todos los reclamos
     public List<Reclamo> getAllReclamos() {

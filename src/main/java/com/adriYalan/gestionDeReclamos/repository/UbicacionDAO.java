@@ -11,8 +11,23 @@ import java.util.Optional;
 @Component
 public class UbicacionDAO {
 
+    private static UbicacionDAO instancia;
+
     @Autowired
     private UbicacionRepository ubicacionRepository;
+
+    // Constructor privado para el patrón singleton
+    private UbicacionDAO() {}
+
+    // Método para obtener la instancia del DAO
+    public static UbicacionDAO getInstancia() {
+        if (instancia == null) {
+            instancia = new UbicacionDAO();
+        }
+        return instancia;
+    }
+
+    public void setRepository(UbicacionRepository repository) {this.ubicacionRepository = repository;}
 
     // Obtener todas las ubicaciones
     public List<Ubicacion> getAllUbicaciones() {
