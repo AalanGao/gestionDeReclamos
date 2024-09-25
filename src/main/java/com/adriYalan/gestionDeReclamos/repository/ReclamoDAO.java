@@ -16,10 +16,8 @@ public class ReclamoDAO {
     @Autowired
     private ReclamoRepository reclamoRepository;
 
-    // Constructor privado para el patrón singleton
     private ReclamoDAO() {}
 
-    // Método para obtener la instancia del DAO
     public static ReclamoDAO getInstancia() {
         if (instancia == null) {
             instancia = new ReclamoDAO();
@@ -27,22 +25,18 @@ public class ReclamoDAO {
         return instancia;
     }
 
-    // Obtener todos los reclamos
     public List<Reclamo> getAllReclamos() {
         return reclamoRepository.findAll();
     }
 
-    // Obtener un reclamo por ID
     public Optional<Reclamo> getReclamoById(int idReclamo) {
         return reclamoRepository.findById(idReclamo);
     }
 
-    // Guardar o actualizar un reclamo
     public Reclamo guardarReclamo(Reclamo reclamo) {
         return reclamoRepository.save(reclamo);
     }
 
-    // Eliminar un reclamo
     public void eliminarReclamo(int idReclamo) {
         reclamoRepository.deleteById(idReclamo);
     }

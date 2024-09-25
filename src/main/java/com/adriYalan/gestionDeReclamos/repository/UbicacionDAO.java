@@ -16,10 +16,8 @@ public class UbicacionDAO {
     @Autowired
     private UbicacionRepository ubicacionRepository;
 
-    // Constructor privado para el patrón singleton
     private UbicacionDAO() {}
 
-    // Método para obtener la instancia del DAO
     public static UbicacionDAO getInstancia() {
         if (instancia == null) {
             instancia = new UbicacionDAO();
@@ -29,22 +27,18 @@ public class UbicacionDAO {
 
     public void setRepository(UbicacionRepository repository) {this.ubicacionRepository = repository;}
 
-    // Obtener todas las ubicaciones
     public List<Ubicacion> getAllUbicaciones() {
         return ubicacionRepository.findAll();
     }
 
-    // Obtener una ubicación por ID
     public Optional<Ubicacion> getUbicacionById(int idUbicacion) {
         return ubicacionRepository.findById(idUbicacion);
     }
 
-    // Guardar o actualizar una ubicación
     public Ubicacion guardarUbicacion(Ubicacion ubicacion) {
         return ubicacionRepository.save(ubicacion);
     }
 
-    // Eliminar una ubicación
     public void eliminarUbicacion(int idUbicacion) {
         ubicacionRepository.deleteById(idUbicacion);
     }

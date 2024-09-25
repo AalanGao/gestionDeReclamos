@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PersonaRepository extends JpaRepository<Persona, String> {
-    // Puedes agregar métodos personalizados si es necesario
 }

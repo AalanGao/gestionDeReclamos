@@ -16,10 +16,8 @@ public class PersonaDAO {
     @Autowired
     private PersonaRepository personaRepository;
 
-    // Constructor privado para el patrón singleton
     private PersonaDAO() {}
 
-    // Método para obtener la instancia del DAO
     public static PersonaDAO getInstancia() {
         if (instancia == null) {
             instancia = new PersonaDAO();
@@ -27,22 +25,18 @@ public class PersonaDAO {
         return instancia;
     }
 
-    // Método para obtener todas las personas
     public List<Persona> getAllPersonas() {
         return personaRepository.findAll();
     }
 
-    // Método para obtener una persona por su documento
     public Optional<Persona> getPersonaByDocumento(String documento) {
         return personaRepository.findById(documento);
     }
 
-    // Método para guardar una nueva persona
     public Persona guardarPersona(Persona persona) {
         return personaRepository.save(persona);
     }
 
-    // Método para actualizar una persona
     public Persona actualizarPersona(Persona persona) {
         if (persona.getDocumento() != null && personaRepository.existsById(persona.getDocumento())) {
             return personaRepository.save(persona);
@@ -50,10 +44,8 @@ public class PersonaDAO {
         return null;
     }
 
-    // Método para eliminar una persona por su documento
     public void eliminarPersona(String documento) {
         personaRepository.deleteById(documento);
     }
 
-    // Puedes agregar métodos personalizados según tus necesidades
 }

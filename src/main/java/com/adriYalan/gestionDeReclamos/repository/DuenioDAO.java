@@ -16,10 +16,8 @@ public class DuenioDAO {
     @Autowired
     private DuenioRepository duenioRepository;
 
-    // Constructor privado para el patrón singleton
     private DuenioDAO() {}
 
-    // Método para obtener la instancia del DAO
     public static DuenioDAO getInstancia() {
         if (instancia == null) {
             instancia = new DuenioDAO();
@@ -27,22 +25,18 @@ public class DuenioDAO {
         return instancia;
     }
 
-    // Método para obtener todos los dueños
     public List<Duenio> getAllDuenios() {
         return duenioRepository.findAll();
     }
 
-    // Método para obtener un dueño por ID
     public Optional<Duenio> getDuenioById(int id) {
         return duenioRepository.findById(id);
     }
 
-    // Método para guardar un nuevo dueño
     public Duenio guardarDuenio(Duenio duenio) {
         return duenioRepository.save(duenio);
     }
 
-    // Método para eliminar un dueño por ID
     public void eliminarDuenio(int id) {
         duenioRepository.deleteById(id);
     }

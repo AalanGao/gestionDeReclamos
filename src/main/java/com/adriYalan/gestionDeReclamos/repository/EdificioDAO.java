@@ -16,10 +16,8 @@ public class EdificioDAO {
     @Autowired
     private EdificioRepository edificioRepository;
 
-    // Constructor privado para el patrón singleton
     private EdificioDAO() {}
 
-    // Método para obtener la instancia del DAO
     public static EdificioDAO getInstancia() {
         if (instancia == null) {
             instancia = new EdificioDAO();
@@ -27,24 +25,18 @@ public class EdificioDAO {
         return instancia;
     }
 
-    public void setRepository(EdificioRepository repository) {this.edificioRepository = repository;}
-
-    // Método para obtener todos los edificios
     public List<Edificio> getAllEdificios() {
         return edificioRepository.findAll();
     }
 
-    // Método para obtener un edificio por su código
     public Optional<Edificio> getEdificioByCodigo(Long codigo) {
         return edificioRepository.findById(codigo);
     }
 
-    // Método para guardar un edificio
     public Edificio guardarEdificio(Edificio edificio) {
         return edificioRepository.save(edificio);
     }
 
-    // Método para actualizar un edificio
     public Edificio actualizarEdificio(Edificio edificio) {
         if (edificio.getCodigo() != null && edificioRepository.existsById(edificio.getCodigo())) {
             return edificioRepository.save(edificio);
@@ -52,7 +44,6 @@ public class EdificioDAO {
         return null;
     }
 
-    // Método para eliminar un edificio por su código
     public void eliminarEdificio(Long codigo) {
         edificioRepository.deleteById(codigo);
     }

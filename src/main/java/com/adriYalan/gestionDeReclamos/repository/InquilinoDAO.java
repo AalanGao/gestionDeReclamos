@@ -16,10 +16,8 @@ public class InquilinoDAO {
     @Autowired
     private InquilinoRepository inquilinoRepository;
 
-    // Constructor privado para el patrón singleton
     private InquilinoDAO() {}
 
-    // Método para obtener la instancia del DAO
     public static InquilinoDAO getInstancia() {
         if (instancia == null) {
             instancia = new InquilinoDAO();
@@ -27,23 +25,24 @@ public class InquilinoDAO {
         return instancia;
     }
 
-    // Método para obtener todos los inquilinos
     public List<Inquilino> getAllInquilinos() {
         return inquilinoRepository.findAll();
     }
 
-    // Método para obtener un inquilino por ID
     public Optional<Inquilino> getInquilinoById(int id) {
         return inquilinoRepository.findById(id);
     }
 
-    // Método para guardar un nuevo inquilino
+    public Optional<Inquilino> getInquilinoByDocumento(String documento) {
+        return inquilinoRepository.findByDocumento(documento);
+    }
+
     public Inquilino guardarInquilino(Inquilino inquilino) {
         return inquilinoRepository.save(inquilino);
     }
 
-    // Método para eliminar un inquilino por ID
     public void eliminarInquilino(int id) {
         inquilinoRepository.deleteById(id);
     }
+
 }

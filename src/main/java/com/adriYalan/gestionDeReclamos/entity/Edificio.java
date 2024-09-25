@@ -21,6 +21,30 @@ public class Edificio {
     @OneToMany(mappedBy = "edificio", fetch = FetchType.EAGER)
     private List<Unidad> unidades;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "duenios",
+            joinColumns = @JoinColumn(name = "identificador"),  // Columna de la tabla unidades
+            inverseJoinColumns = @JoinColumn(name = "documento")  // Columna de la tabla personas
+    )
+    private List<Persona> duenios;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "inquilinos",
+            joinColumns = @JoinColumn(name = "identificador"),  // Columna de la tabla unidades
+            inverseJoinColumns = @JoinColumn(name = "documento")  // Columna de la tabla personas
+    )
+    private List<Persona> inquilinos;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "habitantes",
+            joinColumns = @JoinColumn(name = "identificador"),  // Columna de la tabla unidades
+            inverseJoinColumns = @JoinColumn(name = "documento")  // Columna de la tabla personas
+    )
+    private List<Persona> habitantes;
+
     @OneToMany(mappedBy = "edificio", fetch = FetchType.EAGER)
     private List<Reclamo> reclamos;
 
@@ -32,6 +56,9 @@ public class Edificio {
         this.direccion = direccion;
         this.unidades = new ArrayList<>();
         this.reclamos = new ArrayList<>();
+        this.duenios = new ArrayList<>();
+        this.inquilinos = new ArrayList<>();
+        this.habitantes = new ArrayList<>();
     }
 
     // Getters y Setters
@@ -74,6 +101,30 @@ public class Edificio {
 
     public void setReclamos(List<Reclamo> reclamos) {
         this.reclamos = reclamos;
+    }
+
+    public List<Persona> getDuenios() {
+        return duenios;
+    }
+
+    public void setDuenios(List<Persona> duenios) {
+        this.duenios = duenios;
+    }
+
+    public List<Persona> getInquilinos() {
+        return inquilinos;
+    }
+
+    public void setInquilinos(List<Persona> inquilinos) {
+        this.inquilinos = inquilinos;
+    }
+
+    public List<Persona> getHabitantes() {
+        return habitantes;
+    }
+
+    public void setHabitantes(List<Persona> habitantes) {
+        this.habitantes = habitantes;
     }
 
     @Override

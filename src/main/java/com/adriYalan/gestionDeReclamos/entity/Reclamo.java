@@ -53,20 +53,18 @@ public class Reclamo {
     public Reclamo(Persona persona,
                    Edificio edificio, Ubicacion ubicacion,
                    Unidad unidad, String descripcion,
-                   TipoReclamo tipoReclamo, List<Imagen> imagenes) {
+                   TipoReclamo tipoReclamo,
+                   EstadoReclamo estadoReclamo) {
         this.persona = persona;
         this.edificio = edificio;
         this.ubicacion = ubicacion;
         this.unidad = unidad;
         this.descripcion = descripcion;
         this.tipoReclamo = tipoReclamo;
-        this.estadoReclamo = new EstadoReclamo("Pendiente");
+        this.estadoReclamo = estadoReclamo; // Pasar el objeto persistido aquí
         this.fechaCreacion = LocalDateTime.now();
-        this.imagenes = new ArrayList<>();
     }
 
-
-    // Getters y setters
     public int getIdReclamo() {
         return idReclamo;
     }

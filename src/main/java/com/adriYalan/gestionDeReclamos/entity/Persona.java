@@ -45,6 +45,14 @@ public class Persona {
         this.nombre = nombre;
     }
 
+    public List<Reclamo> getReclamos() {
+        return reclamos;
+    }
+
+    public void setReclamos(List<Reclamo> reclamos) {
+        this.reclamos = reclamos;
+    }
+
     @Override
     public String toString() {
 
