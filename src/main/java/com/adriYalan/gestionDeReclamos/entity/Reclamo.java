@@ -1,7 +1,10 @@
 package com.adriYalan.gestionDeReclamos.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "reclamos")
@@ -42,8 +45,26 @@ public class Reclamo {
     @Column(name = "fechacreacion", nullable = false)
     private LocalDateTime fechaCreacion;
 
-    // Constructor vacío para JPA
+    @OneToMany(mappedBy = "idReclamo", fetch = FetchType.EAGER)
+    private List<Imagen> imagenes;
+
     public Reclamo() {}
+
+    public Reclamo(Persona persona,
+                   Edificio edificio, Ubicacion ubicacion,
+                   Unidad unidad, String descripcion,
+                   TipoReclamo tipoReclamo, List<Imagen> imagenes) {
+        this.persona = persona;
+        this.edificio = edificio;
+        this.ubicacion = ubicacion;
+        this.unidad = unidad;
+        this.descripcion = descripcion;
+        this.tipoReclamo = tipoReclamo;
+        this.estadoReclamo = new EstadoReclamo("Pendiente");
+        this.fechaCreacion = LocalDateTime.now();
+        this.imagenes = new ArrayList<>();
+    }
+
 
     // Getters y setters
     public int getIdReclamo() {
@@ -117,4 +138,35 @@ public class Reclamo {
     public void setFechaCreacion(LocalDateTime fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
     }
+
+    public List<Imagen> getImagenes() {
+        return imagenes;
+    }
+
+    public void setImagenes(List<Imagen> imagenes) {
+        this.imagenes = imagenes;
+    }
+
+    @Override
+    public String toString() {
+        String imagenesInfo = "";
+        for (Imagen imagen : imagenes) {
+            imagenesInfo += "Imagen ID: " + imagen.getNumero() +
+                    ", URL: " + imagen.getPath() + "; ";
+        }
+
+        return "Reclamo{" +
+                "idReclamo=" + idReclamo +
+                ", persona=" + (persona != null ? persona.getNombre() + " (Documento: " + persona.getDocumento() + ")" : "null") +
+                ", edificio=" + (edificio != null ? edificio.getNombre() : "null") +
+                ", ubicacion=" + (ubicacion != null ? ubicacion.getDescripcion() : "null") +
+                ", unidad=" + (unidad != null ? unidad.getNumero() : "null") +
+                ", descripcion='" + descripcion + '\'' +
+                ", tipoReclamo=" + (tipoReclamo != null ? tipoReclamo.getDescripcion() : "null") +
+                ", estadoReclamo=" + (estadoReclamo != null ? estadoReclamo.getDescripcion() : "null") +
+                ", fechaCreacion=" + fechaCreacion +
+                ", imagenes=[" + imagenesInfo + "]" +
+                '}';
+    }
+
 }

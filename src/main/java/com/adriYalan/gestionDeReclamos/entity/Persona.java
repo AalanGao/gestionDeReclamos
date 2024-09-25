@@ -2,6 +2,8 @@ package com.adriYalan.gestionDeReclamos.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "personas")
 public class Persona {
@@ -12,6 +14,9 @@ public class Persona {
 
     @Column(name = "nombre", nullable = false)
     private String nombre;
+
+    @OneToMany(mappedBy = "persona", fetch = FetchType.EAGER)
+    private List<Reclamo> reclamos;
 
     // Constructor por defecto
     public Persona() {
@@ -40,12 +45,20 @@ public class Persona {
         this.nombre = nombre;
     }
 
-    // Sobrescribir el método toString() para facilitar la depuración
     @Override
     public String toString() {
+
+        String reclamosInfo = "";
+        for (Reclamo reclamo : reclamos) {
+            reclamosInfo += "Reclamo ID: " + reclamo.getIdReclamo() +
+                    ", Ubicación: " + reclamo.getUbicacion() +
+                    ", Descripción: " + reclamo.getDescripcion() + "; ";
+        }
+
         return "Persona{" +
                 "documento='" + documento + '\'' +
                 ", nombre='" + nombre + '\'' +
+                ", reclamos=[" + reclamosInfo + "]" +
                 '}';
     }
 }

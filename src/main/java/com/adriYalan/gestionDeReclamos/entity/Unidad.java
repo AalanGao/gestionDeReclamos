@@ -44,6 +44,14 @@ public class Unidad {
     )
     private List<Persona> inquilinos;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "habitantes",
+            joinColumns = @JoinColumn(name = "identificador"),  // Columna de la tabla unidades
+            inverseJoinColumns = @JoinColumn(name = "documento")  // Columna de la tabla personas
+    )
+    private List<Persona> habitantes;
+
     @OneToMany(mappedBy = "unidad", fetch = FetchType.EAGER)
     private List<Reclamo> reclamos = new ArrayList<>();
 
@@ -57,7 +65,8 @@ public class Unidad {
         this.habitado = "N";  // Por defecto no habitado
         this.duenios = new ArrayList<Persona>();
         this.inquilinos = new ArrayList<Persona>();
-        //this.reclamos = new ArrayList<>();
+        this.habitantes = new ArrayList<>();
+        this.reclamos = new ArrayList<>();
     }
 
     public int getIdentificador() {
@@ -128,6 +137,14 @@ public class Unidad {
         this.inquilinos = inquilinos;
     }
 
+    public List<Persona> getHabitantes() {
+        return habitantes;
+    }
+
+    public void setHabitantes(List<Persona> habitantes) {
+        this.habitantes = habitantes;
+    }
+
     public List<Reclamo> getReclamos() {
         return reclamos;
     }
@@ -139,12 +156,29 @@ public class Unidad {
 
     @Override
     public String toString() {
-        StringBuilder reclamosInfo = new StringBuilder();
+        String dueniosInfo = "";
+        for (Persona duenio : duenios) {
+            dueniosInfo += "Dueño Nombre: " + duenio.getNombre() +
+                    ", Documento: " + duenio.getDocumento() + "; ";
+        }
+
+        String inquilinosInfo = "";
+        for (Persona inquilino : inquilinos) {
+            inquilinosInfo += "Inquilino Nombre: " + inquilino.getNombre() +
+                    ", Documento: " + inquilino.getDocumento() + "; ";
+        }
+
+        String habitantesInfo = "";
+        for (Persona habitante : habitantes) {
+            habitantesInfo += "Habitante Nombre: " + habitante.getNombre() +
+                    ", Documento: " + habitante.getDocumento() + "; ";
+        }
+
+        String reclamosInfo = "";
         for (Reclamo reclamo : reclamos) {
-            reclamosInfo.append("Reclamo ID: ").append(reclamo.getIdReclamo())
-                    .append(", Ubicación: ").append(reclamo.getUbicacion())
-                    .append(", Descripción: ").append(reclamo.getDescripcion())
-                    .append("; ");
+            reclamosInfo += "Reclamo ID: " + reclamo.getIdReclamo() +
+                    ", Ubicación: " + reclamo.getUbicacion() +
+                    ", Descripción: " + reclamo.getDescripcion() + "; ";
         }
 
         return "Unidad{" +
@@ -153,8 +187,12 @@ public class Unidad {
                 ", numero='" + numero + '\'' +
                 ", habitado='" + habitado + '\'' +
                 ", edificio=" + (edificio != null ? edificio.getNombre() : "null") +
+                ", dueños=[" + dueniosInfo + "]" +
+                ", inquilinos=[" + inquilinosInfo + "]" +
+                ", habitantes=[" + habitantesInfo + "]" +
                 ", reclamos=[" + reclamosInfo + "]" +
                 '}';
     }
+
 
 }

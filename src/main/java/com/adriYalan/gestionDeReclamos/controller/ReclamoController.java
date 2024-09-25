@@ -57,7 +57,7 @@ public class ReclamoController {
 
     public List<Reclamo> reclamosPorUnidad(int id) {
         // 1. Obtener la lista de reclamos por unidad usando el DAO
-        return UnidadDAO.getInstancia().getUnidadById(id).getReclamos();
+        return UnidadDAO.getInstancia().getUnidadById(id).get().getReclamos();
     }
 
     public Optional<Reclamo> reclamosPorNumero(int id) {
@@ -65,29 +65,26 @@ public class ReclamoController {
         return ReclamoDAO.getInstancia().getReclamoById(id);
     }
 
-    public List<Reclamo> reclamosPorPersona(String documento) {
+    /*public List<Reclamo> reclamosPorPersona(String documento) {
         // 1. Obtener la lista de reclamos por persona usando el DAO
-        return  PersonaDAO.getInstancia().getPersonaByDocumento(documento).getReclamos();
-    }
+        return  PersonaDAO.getInstancia().getPersonaByDocumento(documento).get()
+    }*/
 
-    public int agregarReclamo(int codigo, String piso, int idUnidad, String documento, int idUbicacion, String descripcion, int idTipTrec)
+    public int agregarReclamo(int codigo, String piso, int idUnidad, String documento, int idUbicacion, String descripcion, int idTipTrec, List<Imagen> imagen)
             throws EdificioException, UnidadException, PersonaException {
+
+        int reclamoId = -1;
         // 1. Agregar un nuevo reclamo usando el DAO
         Optional<Persona> persona = PersonaDAO.getInstancia().getPersonaByDocumento(documento);
         Optional<Edificio> edificio = EdificioDAO.getInstancia().getEdificioByCodigo((long)codigo);
         Optional<Unidad> unidad = UnidadDAO.getInstancia().getUnidadById(idUnidad);
         Optional<Ubicacion> ubic = UbicacionDAO.getInstancia().getUbicacionById(idUbicacion);
         Optional<TipoReclamo> tipoReclamo = TipoReclamoDAO.getInstancia().getTipoReclamoById(idTipTrec);
-        if(persona.isPresent()&&edificio.isPresent()&&unidad.isPresent()&&ubic.isPresent()) {
-            Reclamo reclamo = new Reclamo();
-            reclamo.setPersona(persona.get());
-            reclamo.setEdificio(edificio.get());
-            reclamo.setUnidad(unidad.get());
-            reclamo.setUbicacion(ubic.get());
-            reclamo.setTipoReclamo(tipoReclamo.get());
-            ReclamoDAO.getInstancia().guardarReclamo(reclamo);
+        if(persona.isPresent()&&edificio.isPresent()&&(unidad.isPresent()||ubic.isPresent())&&tipoReclamo.isPresent()) {
+            Reclamo reclamo = new Reclamo(persona.get(), edificio.get(),ubic.get(),unidad.get(), descripcion, tipoReclamo.get(),imagen);
+            reclamoId = ReclamoDAO.getInstancia().guardarReclamo(reclamo).getIdReclamo();
         }
-        return 0;
+        return reclamoId;
     }
 
    // public void agregarImagenAReclamo(int numero, String direccion, String tipo) throws ReclamoException {
@@ -100,6 +97,7 @@ public class ReclamoController {
        Optional<Reclamo> reclamo =  ReclamoDAO.getInstancia().getReclamoById(idReclamo);
        if(reclamo.isPresent()) {
            reclamo.get().setEstadoReclamo(estado);
+           ReclamoDAO.getInstancia().guardarReclamo(reclamo.get());
        }
     }
 }

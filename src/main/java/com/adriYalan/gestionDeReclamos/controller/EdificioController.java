@@ -19,12 +19,10 @@ public class EdificioController {
     public List<Unidad> getUnidadesPorEdificio(int codigo) throws EdificioException {
         // 1. Buscar el edificio por su código
         Optional<Edificio> edificioOpt = edificioDAO.getEdificioByCodigo((long) codigo);
-
         // 2. Si no se encuentra, lanzamos la excepción
         if (!edificioOpt.isPresent()) {
             throw new EdificioException("El edificio con código " + codigo + " no existe.");
         }
-
         // 3. Obtener las unidades del edificio
         Edificio edificio = edificioOpt.get();
         return edificio.getUnidades(); // Devolver la lista de unidades directamente

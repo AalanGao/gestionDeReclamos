@@ -78,12 +78,26 @@ public class Edificio {
 
     @Override
     public String toString() {
+        String unidadesInfo = "";
+        for (Unidad unidad : unidades) {
+            unidadesInfo += "Unidad ID: " + unidad.getIdentificador() +
+                    ", Piso: " + unidad.getPiso() +
+                    ", Número: " + unidad.getNumero() + "; ";
+        }
+
+        String reclamosInfo = "";
+        for (Reclamo reclamo : reclamos) {
+            reclamosInfo += "Reclamo ID: " + reclamo.getIdReclamo() +
+                    ", Ubicación: " + reclamo.getUbicacion() +
+                    ", Descripción: " + reclamo.getDescripcion() + "; ";
+        }
+
         return "Edificio{" +
                 "codigo=" + codigo +
                 ", nombre='" + nombre + '\'' +
                 ", direccion='" + direccion + '\'' +
-                ", unidades=" + unidades +
-                ", reclamos=" + reclamos +
+                ", unidades=[" + unidadesInfo + "]" +
+                ", reclamos=[" + reclamosInfo + "]" +
                 '}';
     }
 }
