@@ -1,13 +1,14 @@
-package com.adriYalan.gestionDeReclamos.controller;
+package com.adriYalan.gestionDeReclamos.service;
 
 import com.adriYalan.gestionDeReclamos.entity.Persona;
 import com.adriYalan.gestionDeReclamos.repository.PersonaDAO;
 import com.adriYalan.gestionDeReclamos.exception.PersonaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
-@Controller
-public class PersonaController {
+@Service
+public class PersonaService {
 
     @Autowired
     private PersonaDAO personaDAO;

@@ -1,4 +1,4 @@
-package com.adriYalan.gestionDeReclamos.controller;
+package com.adriYalan.gestionDeReclamos.service;
 
 import com.adriYalan.gestionDeReclamos.entity.*;
 import com.adriYalan.gestionDeReclamos.exception.PersonaException;
@@ -6,14 +6,15 @@ import com.adriYalan.gestionDeReclamos.exception.UnidadException;
 import com.adriYalan.gestionDeReclamos.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Controller
-public class UnidadController {
+@Service
+public class UnidadService {
 
     @Autowired
     private UnidadDAO unidadDAO;

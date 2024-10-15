@@ -1,4 +1,4 @@
-package com.adriYalan.gestionDeReclamos.controller;
+package com.adriYalan.gestionDeReclamos.service;
 
 import com.adriYalan.gestionDeReclamos.entity.Edificio;
 import com.adriYalan.gestionDeReclamos.entity.Persona;
@@ -7,12 +7,13 @@ import com.adriYalan.gestionDeReclamos.exception.EdificioException;
 import com.adriYalan.gestionDeReclamos.repository.EdificioDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@Controller
-public class EdificioController {
+@Service
+public class EdificioService {
 
     @Autowired
     private EdificioDAO edificioDAO;

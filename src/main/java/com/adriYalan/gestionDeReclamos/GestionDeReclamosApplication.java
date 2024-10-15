@@ -1,20 +1,14 @@
 package com.adriYalan.gestionDeReclamos;
 
-import com.adriYalan.gestionDeReclamos.controller.EdificioController;
-import com.adriYalan.gestionDeReclamos.controller.ReclamoController;
-import com.adriYalan.gestionDeReclamos.controller.UnidadController;
-import com.adriYalan.gestionDeReclamos.entity.Edificio;
-import com.adriYalan.gestionDeReclamos.entity.Persona;
-import com.adriYalan.gestionDeReclamos.entity.Reclamo;
+import com.adriYalan.gestionDeReclamos.service.EdificioService;
+import com.adriYalan.gestionDeReclamos.service.ReclamoService;
+import com.adriYalan.gestionDeReclamos.service.UnidadService;
 import com.adriYalan.gestionDeReclamos.entity.Unidad;
 import com.adriYalan.gestionDeReclamos.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.util.List;
-import java.util.Optional;
 
 @SpringBootApplication
 public class GestionDeReclamosApplication implements CommandLineRunner {
@@ -47,13 +41,13 @@ public class GestionDeReclamosApplication implements CommandLineRunner {
 	private TipoReclamoDAO tipoReclamoDAO;
 
 	@Autowired
-	UnidadController unidadController;
+	UnidadService unidadController;
 
 	@Autowired
-	ReclamoController reclamoController;
+	ReclamoService reclamoController;
 
 	@Autowired
-	EdificioController edificioController;
+	EdificioService edificioController;
 	@Autowired
 	EdificioRepository edificioRepository;
 	@Autowired
