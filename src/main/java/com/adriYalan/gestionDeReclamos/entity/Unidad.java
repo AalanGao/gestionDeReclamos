@@ -1,5 +1,6 @@
 package com.adriYalan.gestionDeReclamos.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -25,7 +26,8 @@ public class Unidad {
     private String habitado;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "codigoedificio")  // Corresponde a la FK en SQL
+    @JoinColumn(name = "codigoedificio")
+    @JsonIgnore
     private Edificio edificio;
 
     @ManyToMany(fetch = FetchType.EAGER)

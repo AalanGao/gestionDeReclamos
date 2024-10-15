@@ -1,5 +1,6 @@
 package com.adriYalan.gestionDeReclamos.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class Persona {
     private String nombre;
 
     @OneToMany(mappedBy = "persona", fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<Reclamo> reclamos;
 
     // Constructor por defecto

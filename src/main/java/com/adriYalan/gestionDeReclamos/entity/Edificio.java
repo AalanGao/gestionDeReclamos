@@ -1,5 +1,6 @@
 package com.adriYalan.gestionDeReclamos.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class Edificio {
     private String direccion;
 
     @OneToMany(mappedBy = "edificio", fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<Unidad> unidades;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -27,6 +29,7 @@ public class Edificio {
             joinColumns = @JoinColumn(name = "identificador"),  // Columna de la tabla unidades
             inverseJoinColumns = @JoinColumn(name = "documento")  // Columna de la tabla personas
     )
+    @JsonIgnore
     private List<Persona> duenios;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -35,6 +38,7 @@ public class Edificio {
             joinColumns = @JoinColumn(name = "identificador"),  // Columna de la tabla unidades
             inverseJoinColumns = @JoinColumn(name = "documento")  // Columna de la tabla personas
     )
+    @JsonIgnore
     private List<Persona> inquilinos;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -43,9 +47,11 @@ public class Edificio {
             joinColumns = @JoinColumn(name = "identificador"),  // Columna de la tabla unidades
             inverseJoinColumns = @JoinColumn(name = "documento")  // Columna de la tabla personas
     )
+    @JsonIgnore
     private List<Persona> habitantes;
 
     @OneToMany(mappedBy = "edificio", fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<Reclamo> reclamos;
 
     public Edificio() {
