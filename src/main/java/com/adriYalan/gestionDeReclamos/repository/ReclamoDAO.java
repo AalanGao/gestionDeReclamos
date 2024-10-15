@@ -37,6 +37,14 @@ public class ReclamoDAO {
         return reclamoRepository.save(reclamo);
     }
 
+    public int contarReclamosPorEstado(int idEstado){
+       return reclamoRepository.contarReclamosPorEstado(idEstado);
+    }
+
+    public List<Reclamo> ReclamosPorEstado(int idEstado){
+        return instancia.ReclamosPorEstado(idEstado);
+    }
+
     public void eliminarReclamo(int idReclamo) {
         reclamoRepository.deleteById(idReclamo);
     }

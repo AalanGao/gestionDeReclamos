@@ -84,4 +84,13 @@ public class ReclamoService {
             reclamoDAO.guardarReclamo(reclamo.get());
         }
     }
+
+    public int contarReclamosPorEstado(int idEstado) {
+        return reclamoDAO.contarReclamosPorEstado(idEstado); // Asegúrate de implementar este método en el DAO
+    }
+
+    public List<Reclamo> obtenerReclamosPorEstado(int idEstado) {
+        return reclamoDAO.ReclamosPorEstado(idEstado);
+    }
+
 }

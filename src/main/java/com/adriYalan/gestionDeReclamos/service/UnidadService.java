@@ -31,6 +31,11 @@ public class UnidadService {
     @Autowired
     private HabitanteDAO habitanteDAO;
 
+    @Autowired
+    private EdificioDAO edificioDAO;
+
+
+
     public List<Persona> dueniosPorUnidad(int codigo, String piso, String numero) throws UnidadException {
         Optional<Unidad> unidadOpt = unidadDAO.getUnidadByDetalles(codigo, piso, numero);
         if (unidadOpt.isEmpty()) {
@@ -153,5 +158,29 @@ public class UnidadService {
 
         unidad.liberar();
         unidadDAO.actualizarUnidad(unidad);
+    }
+
+    public Unidad agregarUnidad(int codigoEdificio, String piso, String numero) throws UnidadException, PersonaException {
+        // Verificamos si el edificio existe
+
+        Edificio edificio = edificioDAO.getEdificioByCodigo((long) codigoEdificio)
+                .orElseThrow(() -> new UnidadException("El edificio no existe."));
+
+        // Verificamos si ya existe una unidad con los mismos detalles (codigo, piso, numero)
+        Optional<Unidad> unidadExistente = unidadDAO.getUnidadByDetalles(codigoEdificio, piso, numero);
+        if (unidadExistente.isPresent()) {
+            throw new UnidadException("La unidad ya existe en este edificio.");
+        }
+
+        // Creamos una nueva unidad
+        Unidad nuevaUnidad = new Unidad();
+        nuevaUnidad.setEdificio(edificio);
+        nuevaUnidad.setPiso(piso);
+        nuevaUnidad.setNumero(numero);
+
+        // Si hay dueños, los agregamos
+
+        // Guardamos la unidad en la base de datos
+        return unidadDAO.guardarUnidad(nuevaUnidad);
     }
 }
