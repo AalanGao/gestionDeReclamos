@@ -22,39 +22,31 @@ public class EdificioService {
         return edificioDAO.getAllEdificios();
     }
 
-    public List<Persona> habilitadosPorEdificio(int codigo) throws EdificioException {
+    public Edificio getEdificiosByCodigo(int codigo) throws EdificioException {
         Optional<Edificio> edificioOpt = edificioDAO.getEdificioByCodigo((long) codigo);
         if (edificioOpt.isEmpty()) {
             throw new EdificioException("El edificio con código " + codigo + " no existe.");
         }
-        Edificio edificio = edificioOpt.get();
+        return edificioOpt.get();
+    }
+
+    public List<Persona> habilitadosPorEdificio(int codigo) throws EdificioException {
+        Edificio edificio = this.getEdificiosByCodigo(codigo);
         return edificio.getHabitantes();
     }
 
     public List<Persona> dueniosPorEdificio(int codigo) throws EdificioException {
-        Optional<Edificio> edificioOpt = edificioDAO.getEdificioByCodigo((long) codigo);
-        if (edificioOpt.isEmpty()) {
-            throw new EdificioException("El edificio con código " + codigo + " no existe.");
-        }
-        Edificio edificio = edificioOpt.get();
+        Edificio edificio = this.getEdificiosByCodigo(codigo);
         return edificio.getDuenios();
     }
 
     public List<Persona> inquilinosPorEdificio(int codigo) throws EdificioException {
-        Optional<Edificio> edificioOpt = edificioDAO.getEdificioByCodigo((long) codigo);
-        if (edificioOpt.isEmpty()) {
-            throw new EdificioException("El edificio con código " + codigo + " no existe.");
-        }
-        Edificio edificio = edificioOpt.get();
+        Edificio edificio = this.getEdificiosByCodigo(codigo);
         return edificio.getInquilinos();
     }
 
     public List<Unidad> getUnidadesPorEdificio(int codigo) throws EdificioException {
-        Optional<Edificio> edificioOpt = edificioDAO.getEdificioByCodigo((long) codigo);
-        if (edificioOpt.isEmpty()) {
-            throw new EdificioException("El edificio con código " + codigo + " no existe.");
-        }
-        Edificio edificio = edificioOpt.get();
+        Edificio edificio = this.getEdificiosByCodigo(codigo);
         return edificio.getUnidades();
     }
 }

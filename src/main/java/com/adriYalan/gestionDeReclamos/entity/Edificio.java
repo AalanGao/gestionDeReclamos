@@ -19,42 +19,36 @@ public class Edificio {
 
     private String direccion;
 
-    @OneToMany(mappedBy = "edificio", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "edificio", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Unidad> unidades;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "duenios",
-            joinColumns = @JoinColumn(name = "identificador"),  // Columna de la tabla unidades
-            inverseJoinColumns = @JoinColumn(name = "documento")  // Columna de la tabla personas
-    )
+    @Transient
     @JsonIgnore
     private List<Persona> duenios;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "inquilinos",
-            joinColumns = @JoinColumn(name = "identificador"),  // Columna de la tabla unidades
-            inverseJoinColumns = @JoinColumn(name = "documento")  // Columna de la tabla personas
-    )
+    @Transient
     @JsonIgnore
     private List<Persona> inquilinos;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "habitantes",
-            joinColumns = @JoinColumn(name = "identificador"),  // Columna de la tabla unidades
-            inverseJoinColumns = @JoinColumn(name = "documento")  // Columna de la tabla personas
-    )
+    @Transient
     @JsonIgnore
     private List<Persona> habitantes;
 
-    @OneToMany(mappedBy = "edificio", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "edificio", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Reclamo> reclamos;
 
     public Edificio() {
+        if (this.duenios == null) {
+            this.duenios = new ArrayList<>();
+        }
+        if (this.inquilinos == null) {
+            this.inquilinos = new ArrayList<>();
+        }
+        if (this.habitantes == null) {
+            this.habitantes = new ArrayList<>();
+        }
     }
 
     public Edificio(String nombre, String direccion) {
@@ -110,6 +104,10 @@ public class Edificio {
     }
 
     public List<Persona> getDuenios() {
+        duenios.clear();  // Limpiamos la lista para asegurarnos que no tiene datos antiguos
+        for (Unidad unidad : unidades) {
+            duenios.addAll(unidad.getDuenios());
+        }
         return duenios;
     }
 
@@ -118,6 +116,10 @@ public class Edificio {
     }
 
     public List<Persona> getInquilinos() {
+        inquilinos.clear();  // Limpiamos la lista para evitar datos antiguos
+        for (Unidad unidad : unidades) {
+            inquilinos.addAll(unidad.getInquilinos());
+        }
         return inquilinos;
     }
 
@@ -126,6 +128,10 @@ public class Edificio {
     }
 
     public List<Persona> getHabitantes() {
+        habitantes.clear();  // Limpiamos la lista antes de rellenarla
+        for (Unidad unidad : unidades) {
+            habitantes.addAll(unidad.getHabitantes());
+        }
         return habitantes;
     }
 

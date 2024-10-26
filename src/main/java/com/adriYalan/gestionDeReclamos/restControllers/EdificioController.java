@@ -33,6 +33,9 @@ public class EdificioController {
             return edificioService.getEdificios();
         }
 
+        //Todo
+        //getEdificio by codigo
+
         // Obtener habitantes por edificio
         @GetMapping("/{codigo}/habitantes")
         public ResponseEntity<List<Persona>> getHabitantesPorEdificio(@PathVariable int codigo) throws EdificioException {
