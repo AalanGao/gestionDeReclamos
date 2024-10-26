@@ -49,4 +49,19 @@ public class EdificioService {
         Edificio edificio = this.getEdificiosByCodigo(codigo);
         return edificio.getUnidades();
     }
+
+    public Edificio agregarEdificio(int codigo, String direccion, String nombre) throws EdificioException {
+        // Verificar si ya existe un edificio con el mismo código
+        if (edificioDAO.getEdificioByCodigo((long) codigo).isPresent()) {
+            throw new EdificioException("El edificio con código " + codigo + " ya existe.");
+        }
+
+        // Crear y guardar el nuevo edificio
+        Edificio nuevoEdificio = new Edificio();
+        nuevoEdificio.setCodigo((long) codigo);
+        nuevoEdificio.setDireccion(direccion);
+        nuevoEdificio.setNombre(nombre);
+
+        return edificioDAO.guardarEdificio(nuevoEdificio);
+    }
 }
