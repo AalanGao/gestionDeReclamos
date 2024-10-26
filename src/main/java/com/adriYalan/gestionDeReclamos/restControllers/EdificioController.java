@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
@@ -58,6 +55,12 @@ public class EdificioController {
         @GetMapping("/{codigo}/unidades")
         public ResponseEntity<List<Unidad>> getUnidadesPorEdificio(@PathVariable int codigo) throws EdificioException {
             return ResponseEntity.ok(edificioService.getUnidadesPorEdificio(codigo));
+        }
+        //Crear edificio
+        @PostMapping("/crear")
+        public String crearEdificio(@RequestParam String direccion, String nombre) throws EdificioException {
+            edificioService.agregarEdificio(direccion,nombre);
+            return "El edificio se ha agregado correctamente";
         }
     }
 
