@@ -1,6 +1,7 @@
 package com.adriYalan.gestionDeReclamos.restControllers;
 import com.adriYalan.gestionDeReclamos.entity.Edificio;
 import com.adriYalan.gestionDeReclamos.entity.Persona;
+import com.adriYalan.gestionDeReclamos.entity.Reclamo;
 import com.adriYalan.gestionDeReclamos.entity.Unidad;
 import com.adriYalan.gestionDeReclamos.exception.EdificioException;
 import com.adriYalan.gestionDeReclamos.repository.EdificioDAO;
@@ -62,6 +63,11 @@ public class EdificioController {
             edificioService.agregarEdificio(direccion,nombre);
             return "El edificio se ha agregado correctamente";
         }
-    }
+        @GetMapping("/{codigo}/reclamosZonaComun")
+        public List<Reclamo> getReclamosZonaComunPorEdificio(@PathVariable int codigo) throws EdificioException {
+            return edificioService.getReclamoZonaComunPorEdificio(codigo);
+        }
+
+}
 
 

@@ -2,6 +2,7 @@ package com.adriYalan.gestionDeReclamos.service;
 
 import com.adriYalan.gestionDeReclamos.entity.Edificio;
 import com.adriYalan.gestionDeReclamos.entity.Persona;
+import com.adriYalan.gestionDeReclamos.entity.Reclamo;
 import com.adriYalan.gestionDeReclamos.entity.Unidad;
 import com.adriYalan.gestionDeReclamos.exception.EdificioException;
 import com.adriYalan.gestionDeReclamos.repository.EdificioDAO;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,5 +64,19 @@ public class EdificioService {
         nuevoEdificio.setNombre(nombre);
 
         return edificioDAO.guardarEdificio(nuevoEdificio);
+    }
+
+    public List<Reclamo> getReclamoZonaComunPorEdificio(int codigoEdificio) throws EdificioException {
+        // Obtener el edificio
+        Edificio edificio = getEdificiosByCodigo(codigoEdificio);
+
+        // Filtrar reclamos de zonas comunes (identificador de unidad es null)
+        List<Reclamo> reclamosZonaComun = new ArrayList<>();
+        for (Reclamo reclamo : edificio.getReclamos()) {
+            if (reclamo.getUnidad() == null) {
+                reclamosZonaComun.add(reclamo);
+            }
+        }
+        return reclamosZonaComun;
     }
 }
