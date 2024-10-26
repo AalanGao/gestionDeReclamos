@@ -61,8 +61,6 @@ public class Edificio {
         this.habitantes = new ArrayList<>();
     }
 
-    // Getters y Setters
-
     public Long getCodigo() {
         return codigo;
     }

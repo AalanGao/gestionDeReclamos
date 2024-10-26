@@ -14,16 +14,13 @@ public class Ubicacion {
     @Column(name = "descripcion", nullable = false, length = 100)
     private String descripcion;
 
-    // Constructor vacío
     public Ubicacion() {
     }
 
-    // Constructor con parámetros
     public Ubicacion(String descripcion) {
         this.descripcion = descripcion;
     }
 
-    // Getters y Setters
     public int getIdUbicacion() {
         return idUbicacion;
     }

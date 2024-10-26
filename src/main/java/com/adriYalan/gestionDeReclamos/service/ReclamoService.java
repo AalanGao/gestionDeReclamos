@@ -86,11 +86,13 @@ public class ReclamoService {
     }
 
     public int contarReclamosPorEstado(int idEstado) {
-        return reclamoDAO.contarReclamosPorEstado(idEstado); // Asegúrate de implementar este método en el DAO
+        return reclamoDAO.contarReclamosPorEstado(idEstado);
     }
 
     public List<Reclamo> obtenerReclamosPorEstado(int idEstado) {
         return reclamoDAO.ReclamosPorEstado(idEstado);
     }
+
+    // Todo gestion de tipo reclamo, estado reclamo, ubicaciones
 
 }

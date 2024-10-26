@@ -17,16 +17,13 @@ public class Inquilino {
     @Column(name = "documento", nullable = false)
     private String documento;    // Referencia a la persona
 
-    // Constructor vacío
     public Inquilino() {}
 
-    // Constructor con parámetros
     public Inquilino(int identificador, String documento) {
         this.identificador = identificador;
         this.documento = documento;
     }
 
-    // Getters y Setters
     public int getId() {
         return id;
     }

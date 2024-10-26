@@ -20,17 +20,14 @@ public class Persona {
     @JsonIgnore
     private List<Reclamo> reclamos;
 
-    // Constructor por defecto
     public Persona() {
     }
 
-    // Constructor con parámetros
     public Persona(String documento, String nombre) {
         this.documento = documento;
         this.nombre = nombre;
     }
 
-    // Getters y Setters
     public String getDocumento() {
         return documento;
     }

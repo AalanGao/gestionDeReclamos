@@ -14,16 +14,13 @@ public class TipoReclamo {
     @Column(name = "descripcion", nullable = false, length = 200)
     private String descripcion;
 
-    // Constructor vacío
     public TipoReclamo() {
     }
 
-    // Constructor con parámetros
     public TipoReclamo(String descripcion) {
         this.descripcion = descripcion;
     }
 
-    // Getters y Setters
     public int getIdTipoReclamo() {
         return idTipoReclamo;
     }

@@ -14,16 +14,13 @@ public class EstadoReclamo {
     @Column(name = "descripcion", nullable = false, length = 50)
     private String descripcion;
 
-    // Constructor vacío
     public EstadoReclamo() {
     }
 
-    // Constructor con parámetros
     public EstadoReclamo(String descripcion) {
         this.descripcion = descripcion;
     }
 
-    // Getters y Setters
     public int getIdEstado() {
         return idEstado;
     }
