@@ -27,12 +27,14 @@ public class EdificioController {
 
         // Obtener todos los edificios
         @GetMapping
-        public List<Edificio> getAllEdificios() {
-            return edificioService.getEdificios();
+        public ResponseEntity<List<Edificio>> getAllEdificios() {
+            return ResponseEntity.ok(edificioService.getEdificios());
         }
 
-        //Todo
-        //getEdificio by codigo
+        @GetMapping("/{codigo}")
+        public ResponseEntity<Edificio> getEdificioByCodigo(@PathVariable int codigo) throws EdificioException {
+            return ResponseEntity.ok(edificioService.getEdificiosByCodigo(codigo));
+        }
 
         // Obtener habitantes por edificio
         @GetMapping("/{codigo}/habitantes")
@@ -59,13 +61,18 @@ public class EdificioController {
         }
         //Crear edificio
         @PostMapping("/crear")
-        public String crearEdificio(@RequestParam String direccion, String nombre) throws EdificioException {
-            edificioService.agregarEdificio(direccion,nombre);
-            return "El edificio se ha agregado correctamente";
+        public ResponseEntity<Edificio> crearEdificio(@RequestParam String direccion, String nombre) throws EdificioException {
+            return ResponseEntity.ok(edificioService.agregarEdificio(direccion,nombre));
         }
+
         @GetMapping("/{codigo}/reclamosZonaComun")
-        public List<Reclamo> getReclamosZonaComunPorEdificio(@PathVariable int codigo) throws EdificioException {
-            return edificioService.getReclamoZonaComunPorEdificio(codigo);
+        public ResponseEntity<List<Reclamo>> getReclamosZonaComunPorEdificio(@PathVariable int codigo) throws EdificioException {
+            return ResponseEntity.ok(edificioService.getReclamoZonaComunPorEdificio(codigo));
+        }
+
+        @GetMapping("/{codigo}/reclamos")
+        public ResponseEntity<List<Reclamo>> getReclamosPorEdificio(@PathVariable int codigo) throws EdificioException {
+            return ResponseEntity.ok(edificioService.getReclamoPorEdificio(codigo));
         }
 
 }

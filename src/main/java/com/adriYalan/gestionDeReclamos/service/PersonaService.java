@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class PersonaService {
 
@@ -19,10 +21,16 @@ public class PersonaService {
     }
 
     public void eliminarPersona(String documento) throws PersonaException {
-        if (personaDAO.getPersonaByDocumento(documento).isPresent()) {
-            personaDAO.eliminarPersona(documento);
+        this.getPersonaByDocumento(documento);
+        personaDAO.eliminarPersona(documento);
+    }
+
+    public Persona getPersonaByDocumento(String documento) throws PersonaException {
+        Optional<Persona> persona = personaDAO.getPersonaByDocumento(documento);
+        if (persona.isPresent()) {
+            return persona.get();
         } else {
-            throw new PersonaException("La persona con documento " + documento + " no existe.");
+            throw new PersonaException("La persona de documento " + documento + " no existe.");
         }
     }
 }

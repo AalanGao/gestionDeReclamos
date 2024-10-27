@@ -79,4 +79,9 @@ public class EdificioService {
         }
         return reclamosZonaComun;
     }
+
+    public List<Reclamo> getReclamoPorEdificio(int codigoEdificio) throws EdificioException {
+        Edificio edificio = getEdificiosByCodigo(codigoEdificio);
+        return edificio.getReclamos();
+    }
 }

@@ -20,6 +20,18 @@ public class Persona {
     @JsonIgnore
     private List<Reclamo> reclamos;
 
+    // Lista de unidades donde es dueño
+    @ManyToMany(mappedBy = "duenios", fetch = FetchType.LAZY)
+    private List<Unidad> unidadesComoDuenio;
+
+    // Lista de unidades donde es inquilino
+    @ManyToMany(mappedBy = "inquilinos", fetch = FetchType.LAZY)
+    private List<Unidad> unidadesComoInquilino;
+
+    // Lista de unidades donde es habitante
+    @ManyToMany(mappedBy = "habitantes", fetch = FetchType.LAZY)
+    private List<Unidad> unidadesComoHabitante;
+
     public Persona() {
     }
 
@@ -52,20 +64,27 @@ public class Persona {
         this.reclamos = reclamos;
     }
 
+    public List<Unidad> getUnidadesComoDuenio() {
+        return unidadesComoDuenio;
+    }
+
+    public List<Unidad> getUnidadesComoInquilino() {
+        return unidadesComoInquilino;
+    }
+
+    public List<Unidad> getUnidadesComoHabitante() {
+        return unidadesComoHabitante;
+    }
+
     @Override
     public String toString() {
-
-        String reclamosInfo = "";
-        for (Reclamo reclamo : reclamos) {
-            reclamosInfo += "Reclamo ID: " + reclamo.getIdReclamo() +
-                    ", Ubicación: " + reclamo.getUbicacion() +
-                    ", Descripción: " + reclamo.getDescripcion() + "; ";
-        }
-
         return "Persona{" +
                 "documento='" + documento + '\'' +
                 ", nombre='" + nombre + '\'' +
-                ", reclamos=[" + reclamosInfo + "]" +
+                ", reclamos=" + reclamos +
+                ", unidadesComoDuenio=" + unidadesComoDuenio +
+                ", unidadesComoInquilino=" + unidadesComoInquilino +
+                ", unidadesComoHabitante=" + unidadesComoHabitante +
                 '}';
     }
 }
