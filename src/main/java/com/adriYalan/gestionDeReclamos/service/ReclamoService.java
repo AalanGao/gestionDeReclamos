@@ -51,6 +51,32 @@ public class ReclamoService {
     }
 
     public int agregarReclamo(int codigo, String piso, String numero, String documento,
+                              String descripcion, int idTipTrec,
+                              List<Imagen> imagen) throws EdificioException, UnidadException,
+            PersonaException, ReclamoException {
+
+        Persona persona = personaDAO.getPersonaByDocumento(documento)
+                .orElseThrow(() -> new PersonaException("La persona no existe."));
+
+        Edificio edificio = edificioDAO.getEdificioByCodigo((long)codigo)
+                .orElseThrow(() -> new EdificioException("El edificio no existe."));
+
+
+        Unidad unidad = unidadDAO.getUnidadByDetalles(codigo, piso, numero)
+                .orElseThrow(() -> new UnidadException("La unidad no existe."));
+
+        TipoReclamo tipoReclamo = tipoReclamoDAO.getTipoReclamoById(idTipTrec)
+                .orElseThrow(() -> new ReclamoException("El tipo de reclamo no existe."));
+
+        EstadoReclamo estadoPendiente = estadoReclamoDAO.getEstadoReclamoById(1)
+                .orElseThrow(() -> new ReclamoException("El tipo de reclamo no existe."));
+
+        Reclamo reclamo = new Reclamo(persona, edificio, null, unidad, descripcion, tipoReclamo, estadoPendiente);
+
+        return reclamoDAO.guardarReclamo(reclamo).getIdReclamo();
+    }
+
+    public int agregarReclamo(int codigo, String documento,
                               int idUbicacion, String descripcion, int idTipTrec,
                               List<Imagen> imagen) throws EdificioException, UnidadException,
             PersonaException, ReclamoException {
@@ -61,18 +87,16 @@ public class ReclamoService {
         Edificio edificio = edificioDAO.getEdificioByCodigo((long)codigo)
                 .orElseThrow(() -> new EdificioException("El edificio no existe."));
 
-        Unidad unidad = unidadDAO.getUnidadByDetalles(codigo, piso, numero)
-                .orElseThrow(() -> new UnidadException("La unidad no existe."));
-
         Ubicacion ubic = ubicacionDAO.getUbicacionById(idUbicacion)
                 .orElseThrow(() -> new UnidadException("La ubicación no existe."));
 
         TipoReclamo tipoReclamo = tipoReclamoDAO.getTipoReclamoById(idTipTrec)
                 .orElseThrow(() -> new ReclamoException("El tipo de reclamo no existe."));
 
-        Optional<EstadoReclamo> estadoPendiente = estadoReclamoDAO.getEstadoReclamoById(1);
+        EstadoReclamo estadoPendiente = estadoReclamoDAO.getEstadoReclamoById(1)
+                .orElseThrow(() -> new ReclamoException("El tipo de reclamo no existe."));
 
-        Reclamo reclamo = new Reclamo(persona, edificio, ubic, unidad, descripcion, tipoReclamo, estadoPendiente.get());
+        Reclamo reclamo = new Reclamo(persona, edificio, ubic, null, descripcion, tipoReclamo, estadoPendiente);
 
         return reclamoDAO.guardarReclamo(reclamo).getIdReclamo();
     }
@@ -82,6 +106,8 @@ public class ReclamoService {
         if(reclamo.isPresent()) {
             reclamo.get().setEstadoReclamo(estado);
             reclamoDAO.guardarReclamo(reclamo.get());
+        } else {
+            throw new ReclamoException("El reclamo no existe.");
         }
     }
 

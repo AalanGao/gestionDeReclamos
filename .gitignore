@@ -1,3 +1,4 @@
+src/main/resources/static/gestion-rclamo-api-uade-firebase-adminsdk-u3rn9-3895f57f6d.json
 # Java class files
 *.class
 
@@ -72,3 +73,5 @@ yarn-error.log
 
 # Misc
 *.env
+
+

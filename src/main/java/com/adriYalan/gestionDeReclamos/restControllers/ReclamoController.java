@@ -2,6 +2,8 @@ package com.adriYalan.gestionDeReclamos.restControllers;
 
 import com.adriYalan.gestionDeReclamos.entity.Reclamo;
 import com.adriYalan.gestionDeReclamos.entity.EstadoReclamo;
+import com.adriYalan.gestionDeReclamos.exception.EdificioException;
+import com.adriYalan.gestionDeReclamos.exception.PersonaException;
 import com.adriYalan.gestionDeReclamos.exception.ReclamoException;
 import com.adriYalan.gestionDeReclamos.service.ReclamoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,29 +55,32 @@ public class ReclamoController {
             @RequestParam String piso,
             @RequestParam String numero,
             @RequestParam String documento,
+            @RequestParam String descripcion,
+            @RequestParam int idTipTrec
+    ) throws PersonaException, EdificioException {
+        // veo Firebase imagen
+        int idReclamo = reclamoService.agregarReclamo(codigo, piso, numero, documento, descripcion, idTipTrec, null);
+        return ResponseEntity.ok("Reclamo agregado con ID: " + idReclamo);
+    }
+
+    @PostMapping("/agregarZonaComun")
+    public ResponseEntity<String> agregarReclamo(
+            @RequestParam int codigo,
+            @RequestParam String documento,
             @RequestParam int idUbicacion,
             @RequestParam String descripcion,
             @RequestParam int idTipTrec
-    ) {
-        try {
-            int idReclamo = reclamoService.agregarReclamo(codigo, piso, numero, documento, idUbicacion, descripcion, idTipTrec, null);
-            return ResponseEntity.ok("Reclamo agregado con ID: " + idReclamo);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    ) throws PersonaException, EdificioException {
+        // veo Firebase imagen
+        int idReclamo = reclamoService.agregarReclamo(codigo, documento, idUbicacion, descripcion, idTipTrec, null);
+        return ResponseEntity.ok("Reclamo agregado con ID: " + idReclamo);
     }
 
     // Cambiar estado de un reclamo
     @PutMapping("/{idReclamo}/cambiar-estado")
-    public ResponseEntity<String> cambiarEstado(
-            @PathVariable int idReclamo,
-            @RequestBody EstadoReclamo estado) {
-        try {
+    public ResponseEntity<String> cambiarEstado(@PathVariable int idReclamo, @RequestBody EstadoReclamo estado) {
             reclamoService.cambiarEstado(idReclamo, estado);
             return ResponseEntity.ok("Estado del reclamo actualizado.");
-        } catch (ReclamoException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
     }
 
     // Contar reclamos por estado
