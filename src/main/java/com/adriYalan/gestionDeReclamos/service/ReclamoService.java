@@ -42,8 +42,8 @@ public class ReclamoService {
         return unidadDAO.getUnidadById(id).get().getReclamos();
     }
 
-    public Optional<Reclamo> reclamosPorNumero(int id) {
-        return reclamoDAO.getReclamoById(id);
+    public Reclamo reclamosPorNumero(int id) {
+        return reclamoDAO.getReclamoById(id).get();
     }
 
     public List<Reclamo> reclamosPorPersona(String documento) {

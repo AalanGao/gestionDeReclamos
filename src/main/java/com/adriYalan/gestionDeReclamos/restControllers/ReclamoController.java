@@ -1,5 +1,7 @@
 package com.adriYalan.gestionDeReclamos.restControllers;
 
+import com.adriYalan.gestionDeReclamos.dto.DTOGenerator;
+import com.adriYalan.gestionDeReclamos.dto.ReclamoDTO;
 import com.adriYalan.gestionDeReclamos.entity.Imagen;
 import com.adriYalan.gestionDeReclamos.entity.Reclamo;
 import com.adriYalan.gestionDeReclamos.entity.EstadoReclamo;
@@ -49,16 +51,16 @@ public class ReclamoController {
 
     // Obtener reclamo por número de reclamo
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Reclamo>> obtenerReclamoPorNumero(@PathVariable int id) {
-        Optional<Reclamo> reclamo = reclamoService.reclamosPorNumero(id);
-        return ResponseEntity.ok(reclamo);
+    public ResponseEntity<ReclamoDTO> obtenerReclamoPorNumero(@PathVariable int id) {
+        Reclamo reclamo = reclamoService.reclamosPorNumero(id);//No tiene q devolver optional
+        return ResponseEntity.ok(DTOGenerator.toReclamoDTO(reclamo));
     }
 
     // Obtener reclamos por documento de persona
     @GetMapping("/persona/{documento}")
-    public ResponseEntity<List<Reclamo>> obtenerReclamosPorPersona(@PathVariable String documento) {
+    public ResponseEntity<List<ReclamoDTO>> obtenerReclamosPorPersona(@PathVariable String documento) {
         List<Reclamo> reclamos = reclamoService.reclamosPorPersona(documento);
-        return ResponseEntity.ok(reclamos);
+        return ResponseEntity.ok(DTOGenerator.toReclamoDTOList(reclamos));
     }
 
     // Agregar un nuevo reclamo
