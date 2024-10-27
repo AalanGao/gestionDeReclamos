@@ -1,4 +1,4 @@
-package com.adriYalan.gestionDeReclamos.models;
+package com.adriYalan.gestionDeReclamos.dto.models;
 
 public class LoginRequest {
     private String token;

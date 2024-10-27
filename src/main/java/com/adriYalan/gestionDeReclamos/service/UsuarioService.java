@@ -2,6 +2,7 @@ package com.adriYalan.gestionDeReclamos.service;
 
 import com.adriYalan.gestionDeReclamos.entity.Usuario;
 import com.adriYalan.gestionDeReclamos.repository.UsuarioDAO;
+import com.adriYalan.gestionDeReclamos.repository.UsuarioRepository;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
@@ -14,6 +15,8 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioDAO UsuarioDao; // Cambiamos de UserRepository a UserDao
+
+    private UsuarioRepository usuarioRepository;
 
     @Autowired
     private FirebaseAuth firebaseAuth;
@@ -34,4 +37,9 @@ public class UsuarioService {
             return "Error de autenticación: " + e.getMessage();
         }
     }
+
+    public Usuario getUsuarioPorEmail(String email) {
+        return UsuarioRepository.findByUsername(email);
+    }
+
 }
