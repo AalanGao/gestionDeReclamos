@@ -1,9 +1,13 @@
 package com.adriYalan.gestionDeReclamos.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "imagenes")
+@Data
 public class Imagen {
 
     @Id
@@ -27,30 +31,6 @@ public class Imagen {
         this.path = path;
         this.tipo = tipo;
         this.idReclamo = idReclamo;
-    }
-
-    public int getNumero() {
-        return numero;
-    }
-
-    public void setNumero(int numero) {
-        this.numero = numero;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
     }
 
     @Override

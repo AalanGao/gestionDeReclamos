@@ -1,15 +1,22 @@
 package com.adriYalan.gestionDeReclamos.restControllers;
 
+import com.adriYalan.gestionDeReclamos.entity.Imagen;
 import com.adriYalan.gestionDeReclamos.entity.Reclamo;
 import com.adriYalan.gestionDeReclamos.entity.EstadoReclamo;
 import com.adriYalan.gestionDeReclamos.exception.EdificioException;
 import com.adriYalan.gestionDeReclamos.exception.PersonaException;
 import com.adriYalan.gestionDeReclamos.exception.ReclamoException;
+import com.adriYalan.gestionDeReclamos.repository.ImagenRepository;
+import com.adriYalan.gestionDeReclamos.service.FirebaseStorageService;
+import com.adriYalan.gestionDeReclamos.service.PersonaService;
 import com.adriYalan.gestionDeReclamos.service.ReclamoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +26,12 @@ public class ReclamoController {
 
     @Autowired
     private ReclamoService reclamoService;
+
+    @Autowired
+    private FirebaseStorageService firebaseStorageService;
+
+    @Autowired
+    private ImagenRepository imagenRepository;
 
     // Obtener reclamos por código de edificio
     @GetMapping("/edificio/{codigo}")
@@ -56,10 +69,11 @@ public class ReclamoController {
             @RequestParam String numero,
             @RequestParam String documento,
             @RequestParam String descripcion,
-            @RequestParam int idTipTrec
-    ) throws PersonaException, EdificioException {
-        // veo Firebase imagen
+            @RequestParam int idTipTrec,
+            @RequestParam(required = false) List<MultipartFile> imagenes
+    ) throws PersonaException, EdificioException, IOException {
         int idReclamo = reclamoService.agregarReclamo(codigo, piso, numero, documento, descripcion, idTipTrec, null);
+        this.saveImg(imagenes, idReclamo);
         return ResponseEntity.ok("Reclamo agregado con ID: " + idReclamo);
     }
 
@@ -69,10 +83,11 @@ public class ReclamoController {
             @RequestParam String documento,
             @RequestParam int idUbicacion,
             @RequestParam String descripcion,
-            @RequestParam int idTipTrec
-    ) throws PersonaException, EdificioException {
-        // veo Firebase imagen
+            @RequestParam int idTipTrec,
+            @RequestParam(required = false) List<MultipartFile> imagenes
+    ) throws PersonaException, EdificioException, IOException {
         int idReclamo = reclamoService.agregarReclamo(codigo, documento, idUbicacion, descripcion, idTipTrec, null);
+        this.saveImg(imagenes, idReclamo);
         return ResponseEntity.ok("Reclamo agregado con ID: " + idReclamo);
     }
 
@@ -96,4 +111,21 @@ public class ReclamoController {
         List<Reclamo> reclamos = reclamoService.obtenerReclamosPorEstado(idEstado);
         return ResponseEntity.ok(reclamos);
     }
+
+    private void saveImg(List<MultipartFile> imagenes, int idReclamo) throws IOException {
+        if (imagenes != null && !imagenes.isEmpty()) {
+            List<Imagen> listaImagenes = new ArrayList<>();
+            for (MultipartFile imagen : imagenes) {
+                String urlImagen = firebaseStorageService.uploadFile(imagen, idReclamo); // Subir la imagen y obtener la URL
+                Imagen nuevaImagen = new Imagen();
+                nuevaImagen.setPath(urlImagen);
+                nuevaImagen.setTipo(imagen.getContentType()); // Tipo de la imagen
+                nuevaImagen.setIdReclamo(idReclamo);
+                listaImagenes.add(nuevaImagen);
+            }
+            imagenRepository.saveAll(listaImagenes);
+        }
+    }
+
+
 }

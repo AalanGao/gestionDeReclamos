@@ -98,6 +98,8 @@ public class ReclamoService {
 
         Reclamo reclamo = new Reclamo(persona, edificio, ubic, null, descripcion, tipoReclamo, estadoPendiente);
 
+        reclamo.setImagenes(imagen);
+
         return reclamoDAO.guardarReclamo(reclamo).getIdReclamo();
     }
 

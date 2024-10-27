@@ -18,7 +18,7 @@ public class FirebaseConfig {
     public void initialize() {
         try {
             FileInputStream serviceAccount =
-                    new FileInputStream("src/main/resources/firebase-service-account.json");
+                    new FileInputStream("src/main/resources/static/gestion-rclamo-api-uade-firebase-adminsdk-u3rn9-3895f57f6d.json");
 
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
