@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
     // Manejo de excepciones generales
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleGeneralException(Exception ex) {
-        return new ResponseEntity<>("Error interno del servidor. Intente más tarde.", HttpStatus.INTERNAL_SERVER_ERROR);  // 500 Internal Server Error
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);  // 500 Internal Server Error
     }
 }
 

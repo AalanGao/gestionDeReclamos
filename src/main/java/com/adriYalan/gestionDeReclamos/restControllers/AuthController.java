@@ -1,6 +1,5 @@
 package com.adriYalan.gestionDeReclamos.restControllers;
 
-import com.adriYalan.gestionDeReclamos.dto.UsuarioDTO;
 import com.adriYalan.gestionDeReclamos.dto.models.LoginRequest; // Importa la clase LoginRequest
 import com.adriYalan.gestionDeReclamos.entity.Persona;
 import com.adriYalan.gestionDeReclamos.entity.Usuario; // Importa la entidad Usuario
