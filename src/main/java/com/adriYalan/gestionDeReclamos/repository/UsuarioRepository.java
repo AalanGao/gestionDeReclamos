@@ -6,12 +6,12 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
-    static Usuario findByUsername(String username) {
-        return null;
-    }
+    // Método para buscar un usuario por su nombre de usuario
 
-    static Usuario findByUid(String uid) // Asumiendo que 'uid' es el identificador que usarás de Firebase
-    {
-        return null;
-    }
+
+    // Método para buscar un usuario por su UID de Firebase
+    //Usuario findByUid(String uid); // Asegúrate de que 'uid' sea un campo en tu entidad Usuario
+
+    // Método para buscar un usuario por su correo electrónico
+    Usuario findByEmail(String email); //
 }

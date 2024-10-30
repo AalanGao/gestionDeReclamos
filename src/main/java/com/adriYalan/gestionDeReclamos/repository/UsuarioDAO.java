@@ -12,15 +12,17 @@ public class UsuarioDAO {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public Optional<Usuario> findByUsername(String username) {
-        return Optional.ofNullable(UsuarioRepository.findByUsername(username));
+
+
+    public Usuario saveUsuario(Usuario usuario) {
+        return usuarioRepository.save(usuario);
     }
 
-    public Usuario saveUsuario(Usuario usuario) { // Manteniendo el nombre 'usuario'
-        return usuarioRepository.save(usuario); // Cambiamos 'user' a 'usuario'
-    }
+   // public Usuario findByUid(String uid) {
+     //   return usuarioRepository.findByUid(uid);
+    //}
 
-    public Usuario findByUid(String uid) {
-        return UsuarioRepository.findByUid(uid);
+    public Usuario findByEmail(String email) {
+        return usuarioRepository.findByEmail(email);
     }
 }
