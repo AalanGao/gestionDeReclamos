@@ -52,8 +52,8 @@ public class UnidadController {
     }
 
     // Agregar un nuevo dueño a una unidad
-    @PostMapping("/{codigo}/piso/{piso}/numero/{numero}/duenios")
-    public ResponseEntity<String> agregarDuenioUnidad(@PathVariable int codigo, @PathVariable String piso, @PathVariable String numero, @RequestBody String documento) {
+    @PostMapping("/agregarDuenio")
+    public ResponseEntity<String> agregarDuenioUnidad(@RequestParam int codigo, @RequestParam String piso, @RequestParam String numero, @RequestParam String documento) {
         try {
             unidadService.agregarDuenioUnidad(codigo, piso, numero, documento);
             return ResponseEntity.ok("Dueño agregado correctamente.");
