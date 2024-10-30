@@ -24,9 +24,9 @@ public class PersonaController {
 
     // Agregar una nueva persona
     @PostMapping
-    public ResponseEntity<Void> agregarPersona(@RequestParam String documento, @RequestParam String nombre) {
+    public ResponseEntity<String> agregarPersona(@RequestParam String documento, @RequestParam String nombre) {
         personaService.agregarPersona(documento, nombre);
-        return ResponseEntity.status(201).build();
+        return ResponseEntity.ok("Persona agregada correctamente");
     }
 
     //Get persona by documento
