@@ -19,8 +19,8 @@ public class UnidadController {
     private UnidadService unidadService;
 
     // Obtener los dueños de una unidad
-    @GetMapping("/{codigo}/piso/{piso}/numero/{numero}/duenios")
-    public ResponseEntity<List<Persona>> obtenerDueniosPorUnidad(@PathVariable int codigo, @PathVariable String piso, @PathVariable String numero) {
+    @GetMapping("/dueniosPorUnidad")
+    public ResponseEntity<List<Persona>> obtenerDueniosPorUnidad(@RequestParam int codigo, @RequestParam String piso, @RequestParam String numero) {
         try {
             List<Persona> duenios = unidadService.dueniosPorUnidad(codigo, piso, numero);
             return ResponseEntity.ok(duenios);
@@ -30,8 +30,8 @@ public class UnidadController {
     }
 
     // Obtener los inquilinos de una unidad
-    @GetMapping("/{codigo}/piso/{piso}/numero/{numero}/inquilinos")
-    public ResponseEntity<List<Persona>> obtenerInquilinosPorUnidad(@PathVariable int codigo, @PathVariable String piso, @PathVariable String numero) {
+    @GetMapping("/inquilinosPorUnidad")
+    public ResponseEntity<List<Persona>> obtenerInquilinosPorUnidad(@RequestParam int codigo, @RequestParam String piso, @RequestParam String numero) {
         try {
             List<Persona> inquilinos = unidadService.inquilinosPorUnidad(codigo, piso, numero);
             return ResponseEntity.ok(inquilinos);
@@ -41,8 +41,8 @@ public class UnidadController {
     }
 
     // Obtener los habitantes de una unidad
-    @GetMapping("/{codigo}/piso/{piso}/numero/{numero}/habitantes")
-    public ResponseEntity<List<Persona>> obtenerHabitantesPorUnidad(@PathVariable int codigo, @PathVariable String piso, @PathVariable String numero) {
+    @GetMapping("/habitantesPorUnidad")
+    public ResponseEntity<List<Persona>> obtenerHabitantesPorUnidad(@RequestParam int codigo, @RequestParam String piso, @RequestParam String numero) {
         try {
             List<Persona> habitantes = unidadService.habitantesPorUnidad(codigo, piso, numero);
             return ResponseEntity.ok(habitantes);
@@ -63,8 +63,8 @@ public class UnidadController {
     }
 
     // Transferir la unidad a un nuevo dueño
-    @PostMapping("/{codigo}/piso/{piso}/numero/{numero}/transferir")
-    public ResponseEntity<String> transferirUnidad(@PathVariable int codigo, @PathVariable String piso, @PathVariable String numero, @RequestBody String documento) {
+    @PostMapping("/nuevoDuenño")
+    public ResponseEntity<String> transferirUnidad(@RequestParam int codigo, @RequestParam String piso, @RequestParam String numero, @RequestParam String documento) {
         try {
             unidadService.transferirUnidad(codigo, piso, numero, documento);
             return ResponseEntity.ok("Unidad transferida correctamente.");
@@ -74,8 +74,8 @@ public class UnidadController {
     }
 
     // Agregar un nuevo inquilino a una unidad
-    @PostMapping("/{codigo}/piso/{piso}/numero/{numero}/inquilinos")
-    public ResponseEntity<String> agregarInquilinoUnidad(@PathVariable int codigo, @PathVariable String piso, @PathVariable String numero, @RequestBody String documento) {
+    @PostMapping("/agregarInquilino")
+    public ResponseEntity<String> agregarInquilinoUnidad(@RequestParam int codigo, @RequestParam String piso, @RequestParam String numero, @RequestParam String documento) {
         try {
             unidadService.agregarInquilinoUnidad(codigo, piso, numero, documento);
             return ResponseEntity.ok("Inquilino agregado correctamente.");
@@ -85,8 +85,8 @@ public class UnidadController {
     }
 
     // Agregar un nuevo habitante a una unidad
-    @PostMapping("/{codigo}/piso/{piso}/numero/{numero}/habitantes")
-    public ResponseEntity<String> agregarHabitanteUnidad(@PathVariable int codigo, @PathVariable String piso, @PathVariable String numero, @RequestBody String documento) {
+    @PostMapping("/agregarHabitante")
+    public ResponseEntity<String> agregarHabitanteUnidad(@RequestParam int codigo, @RequestParam String piso, @RequestParam String numero, @RequestParam String documento) {
         try {
             unidadService.agregarHabitanteUnidad(codigo, piso, numero, documento);
             return ResponseEntity.ok("Habitante agregado correctamente.");
@@ -96,8 +96,8 @@ public class UnidadController {
     }
 
     // Liberar una unidad de todos sus habitantes
-    @DeleteMapping("/{codigo}/piso/{piso}/numero/{numero}/liberar")
-    public ResponseEntity<String> liberarUnidad(@PathVariable int codigo, @PathVariable String piso, @PathVariable String numero) {
+    @DeleteMapping("liberar")
+    public ResponseEntity<String> liberarUnidad(@RequestParam int codigo, @RequestParam String piso, @RequestParam String numero) {
         try {
             unidadService.liberarUnidad(codigo, piso, numero);
             return ResponseEntity.ok("Unidad liberada correctamente.");

@@ -94,8 +94,8 @@ public class ReclamoController {
     }
 
     // Cambiar estado de un reclamo
-    @PutMapping("/{idReclamo}/cambiar-estado")
-    public ResponseEntity<String> cambiarEstado(@PathVariable int idReclamo, @RequestBody EstadoReclamo estado) {
+    @PutMapping("/cambiarEstado")
+    public ResponseEntity<String> cambiarEstado(@RequestParam int idReclamo, @RequestParam EstadoReclamo estado) {
             reclamoService.cambiarEstado(idReclamo, estado);
             return ResponseEntity.ok("Estado del reclamo actualizado.");
     }
