@@ -1,5 +1,6 @@
 package com.adriYalan.gestionDeReclamos.restControllers;
 
+import com.adriYalan.gestionDeReclamos.dto.*;
 import com.adriYalan.gestionDeReclamos.entity.Persona;
 import com.adriYalan.gestionDeReclamos.entity.Unidad;
 import com.adriYalan.gestionDeReclamos.exception.PersonaException;
@@ -18,102 +19,72 @@ public class UnidadController {
     @Autowired
     private UnidadService unidadService;
 
+    @GetMapping()
+    public ResponseEntity<UnidadDTO> obtenerUnidad(@RequestParam int codigo, @RequestParam String piso, @RequestParam String numero) {
+        Unidad unidad = unidadService.getUnidad(codigo, piso, numero);
+        return ResponseEntity.ok(DTOGenerator.toUnidadDTO(unidad));
+    }
+
     // Obtener los dueños de una unidad
     @GetMapping("/dueniosPorUnidad")
-    public ResponseEntity<List<Persona>> obtenerDueniosPorUnidad(@RequestParam int codigo, @RequestParam String piso, @RequestParam String numero) {
-        try {
-            List<Persona> duenios = unidadService.dueniosPorUnidad(codigo, piso, numero);
-            return ResponseEntity.ok(duenios);
-        } catch (UnidadException e) {
-            return ResponseEntity.badRequest().body(null);
-        }
+    public ResponseEntity<List<PersonaSimpleDTO>> obtenerDueniosPorUnidad(@RequestParam int codigo, @RequestParam String piso, @RequestParam String numero) {
+        List<Persona> duenios = unidadService.dueniosPorUnidad(codigo, piso, numero);
+        return ResponseEntity.ok(DTOGenerator.toPersonaSimpleDTOList(duenios));
     }
 
     // Obtener los inquilinos de una unidad
     @GetMapping("/inquilinosPorUnidad")
-    public ResponseEntity<List<Persona>> obtenerInquilinosPorUnidad(@RequestParam int codigo, @RequestParam String piso, @RequestParam String numero) {
-        try {
-            List<Persona> inquilinos = unidadService.inquilinosPorUnidad(codigo, piso, numero);
-            return ResponseEntity.ok(inquilinos);
-        } catch (UnidadException e) {
-            return ResponseEntity.badRequest().body(null);
-        }
+    public ResponseEntity<List<PersonaSimpleDTO>> obtenerInquilinosPorUnidad(@RequestParam int codigo, @RequestParam String piso, @RequestParam String numero) {
+        List<Persona> inquilinos = unidadService.inquilinosPorUnidad(codigo, piso, numero);
+        return ResponseEntity.ok(DTOGenerator.toPersonaSimpleDTOList(inquilinos));
     }
 
     // Obtener los habitantes de una unidad
     @GetMapping("/habitantesPorUnidad")
-    public ResponseEntity<List<Persona>> obtenerHabitantesPorUnidad(@RequestParam int codigo, @RequestParam String piso, @RequestParam String numero) {
-        try {
-            List<Persona> habitantes = unidadService.habitantesPorUnidad(codigo, piso, numero);
-            return ResponseEntity.ok(habitantes);
-        } catch (UnidadException e) {
-            return ResponseEntity.badRequest().body(null);
-        }
+    public ResponseEntity<List<PersonaSimpleDTO>> obtenerHabitantesPorUnidad(@RequestParam int codigo, @RequestParam String piso, @RequestParam String numero) {
+        List<Persona> habitantes = unidadService.habitantesPorUnidad(codigo, piso, numero);
+        return ResponseEntity.ok(DTOGenerator.toPersonaSimpleDTOList(habitantes));
     }
 
     // Agregar un nuevo dueño a una unidad
     @PostMapping("/agregarDuenio")
-    public ResponseEntity<String> agregarDuenioUnidad(@RequestParam int codigo, @RequestParam String piso, @RequestParam String numero, @RequestParam String documento) {
-        try {
+    public ResponseEntity<String> agregarDuenioUnidad(@RequestParam int codigo, @RequestParam String piso, @RequestParam String numero, @RequestParam String documento) throws PersonaException {
             unidadService.agregarDuenioUnidad(codigo, piso, numero, documento);
             return ResponseEntity.ok("Dueño agregado correctamente.");
-        } catch (UnidadException | PersonaException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
     }
 
     // Transferir la unidad a un nuevo dueño
-    @PostMapping("/nuevoDuenño")
-    public ResponseEntity<String> transferirUnidad(@RequestParam int codigo, @RequestParam String piso, @RequestParam String numero, @RequestParam String documento) {
-        try {
-            unidadService.transferirUnidad(codigo, piso, numero, documento);
-            return ResponseEntity.ok("Unidad transferida correctamente.");
-        } catch (UnidadException | PersonaException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    @PostMapping("/nuevoDuenio")
+    public ResponseEntity<String> transferirUnidad(@RequestParam int codigo, @RequestParam String piso, @RequestParam String numero, @RequestParam String documento) throws PersonaException {
+        unidadService.transferirUnidad(codigo, piso, numero, documento);
+        return ResponseEntity.ok("Unidad transferida correctamente.");
     }
 
     // Agregar un nuevo inquilino a una unidad
     @PostMapping("/agregarInquilino")
-    public ResponseEntity<String> agregarInquilinoUnidad(@RequestParam int codigo, @RequestParam String piso, @RequestParam String numero, @RequestParam String documento) {
-        try {
-            unidadService.agregarInquilinoUnidad(codigo, piso, numero, documento);
-            return ResponseEntity.ok("Inquilino agregado correctamente.");
-        } catch (UnidadException | PersonaException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<String> agregarInquilinoUnidad(@RequestParam int codigo, @RequestParam String piso, @RequestParam String numero, @RequestParam String documento) throws PersonaException {
+        unidadService.agregarInquilinoUnidad(codigo, piso, numero, documento);
+        return ResponseEntity.ok("Inquilino agregado correctamente.");
     }
 
     // Agregar un nuevo habitante a una unidad
     @PostMapping("/agregarHabitante")
-    public ResponseEntity<String> agregarHabitanteUnidad(@RequestParam int codigo, @RequestParam String piso, @RequestParam String numero, @RequestParam String documento) {
-        try {
-            unidadService.agregarHabitanteUnidad(codigo, piso, numero, documento);
-            return ResponseEntity.ok("Habitante agregado correctamente.");
-        } catch (UnidadException | PersonaException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<String> agregarHabitanteUnidad(@RequestParam int codigo, @RequestParam String piso, @RequestParam String numero, @RequestParam String documento) throws PersonaException {
+        unidadService.agregarHabitanteUnidad(codigo, piso, numero, documento);
+        return ResponseEntity.ok("Habitante agregado correctamente.");
     }
 
     // Liberar una unidad de todos sus habitantes
     @DeleteMapping("liberar")
-    public ResponseEntity<String> liberarUnidad(@RequestParam int codigo, @RequestParam String piso, @RequestParam String numero) {
-        try {
-            unidadService.liberarUnidad(codigo, piso, numero);
-            return ResponseEntity.ok("Unidad liberada correctamente.");
-        } catch (UnidadException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<String> liberarUnidad(@RequestParam int codigo, @RequestParam String piso, @RequestParam String numero) throws UnidadException{
+        unidadService.liberarUnidad(codigo, piso, numero);
+        return ResponseEntity.ok("Unidad liberada correctamente.");
     }
 
     // Agregar una nueva unidad
     @PostMapping("/agregar")
-    public ResponseEntity<Unidad> agregarUnidad(@RequestParam int codigoEdificio, @RequestParam String piso, @RequestParam String numero) {
-        try {
-            Unidad nuevaUnidad = unidadService.agregarUnidad(codigoEdificio, piso, numero);
-            return ResponseEntity.ok(nuevaUnidad);
-        } catch (UnidadException | PersonaException e) {
-            return ResponseEntity.badRequest().body(null);
-        }
+    public ResponseEntity<UnidadDTO> agregarUnidad(@RequestParam int codigo, @RequestParam String piso, @RequestParam String numero) throws PersonaException {
+        Unidad nuevaUnidad = unidadService.agregarUnidad(codigo, piso, numero);
+        return ResponseEntity.ok(DTOGenerator.toUnidadDTO(nuevaUnidad));
     }
 }

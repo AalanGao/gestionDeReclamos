@@ -3,6 +3,7 @@ package com.adriYalan.gestionDeReclamos.dto;
 import com.adriYalan.gestionDeReclamos.entity.EstadoReclamo;
 import com.adriYalan.gestionDeReclamos.entity.Imagen;
 import com.adriYalan.gestionDeReclamos.entity.TipoReclamo;
+import com.adriYalan.gestionDeReclamos.entity.Ubicacion;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,5 +23,6 @@ public class ReclamoDTO {
     private TipoReclamo tipoReclamo;
     private EstadoReclamo estadoReclamo;
     private LocalDateTime fechaCreacion;
+    private Ubicacion ubicacion;
     private List<Imagen> imagenes;
 }

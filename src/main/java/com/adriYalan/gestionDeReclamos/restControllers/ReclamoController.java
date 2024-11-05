@@ -37,22 +37,22 @@ public class ReclamoController {
 
     // Obtener reclamos por código de edificio
     @GetMapping("/edificio/{codigo}")
-    public ResponseEntity<List<Reclamo>> obtenerReclamosPorEdificio(@PathVariable int codigo) {
+    public ResponseEntity<List<ReclamoDTO>> obtenerReclamosPorEdificio(@PathVariable int codigo) {
         List<Reclamo> reclamos = reclamoService.reclamosPorEdificio(codigo);
-        return ResponseEntity.ok(reclamos);
+        return ResponseEntity.ok(DTOGenerator.toReclamoDTOList(reclamos));
     }
 
     // Obtener reclamos por unidad
     @GetMapping("/unidad/{id}")
-    public ResponseEntity<List<Reclamo>> obtenerReclamosPorUnidad(@PathVariable int id) {
+    public ResponseEntity<List<ReclamoDTO>> obtenerReclamosPorUnidad(@PathVariable int id) {
         List<Reclamo> reclamos = reclamoService.reclamosPorUnidad(id);
-        return ResponseEntity.ok(reclamos);
+        return ResponseEntity.ok(DTOGenerator.toReclamoDTOList(reclamos));
     }
 
     // Obtener reclamo por número de reclamo
     @GetMapping("/{id}")
     public ResponseEntity<ReclamoDTO> obtenerReclamoPorNumero(@PathVariable int id) {
-        Reclamo reclamo = reclamoService.reclamosPorNumero(id);//No tiene q devolver optional
+        Reclamo reclamo = reclamoService.reclamosPorNumero(id);
         return ResponseEntity.ok(DTOGenerator.toReclamoDTO(reclamo));
     }
 
@@ -95,9 +95,9 @@ public class ReclamoController {
 
     // Cambiar estado de un reclamo
     @PutMapping("/cambiarEstado")
-    public ResponseEntity<String> cambiarEstado(@RequestParam int idReclamo, @RequestParam EstadoReclamo estado) {
-            reclamoService.cambiarEstado(idReclamo, estado);
-            return ResponseEntity.ok("Estado del reclamo actualizado.");
+    public ResponseEntity<ReclamoDTO> cambiarEstado(@RequestParam int idReclamo, @RequestParam int idEstado) {
+            Reclamo reclamo = reclamoService.cambiarEstado(idReclamo, idEstado);
+            return ResponseEntity.ok(DTOGenerator.toReclamoDTO(reclamo));
     }
 
     // Contar reclamos por estado
@@ -109,9 +109,9 @@ public class ReclamoController {
 
     // Obtener lista de reclamos por estado
     @GetMapping("/estado/{idEstado}")
-    public ResponseEntity<List<Reclamo>> obtenerReclamosPorEstado(@PathVariable int idEstado) {
+    public ResponseEntity<List<ReclamoDTO>> obtenerReclamosPorEstado(@PathVariable int idEstado) {
         List<Reclamo> reclamos = reclamoService.obtenerReclamosPorEstado(idEstado);
-        return ResponseEntity.ok(reclamos);
+        return ResponseEntity.ok(DTOGenerator.toReclamoDTOList(reclamos));
     }
 
     private void saveImg(List<MultipartFile> imagenes, int idReclamo) throws IOException {

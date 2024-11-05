@@ -1,4 +1,5 @@
 package com.adriYalan.gestionDeReclamos.restControllers;
+import com.adriYalan.gestionDeReclamos.dto.*;
 import com.adriYalan.gestionDeReclamos.entity.Edificio;
 import com.adriYalan.gestionDeReclamos.entity.Persona;
 import com.adriYalan.gestionDeReclamos.entity.Reclamo;
@@ -27,52 +28,52 @@ public class EdificioController {
 
         // Obtener todos los edificios
         @GetMapping
-        public ResponseEntity<List<Edificio>> getAllEdificios() {
-            return ResponseEntity.ok(edificioService.getEdificios());
+        public ResponseEntity<List<EdificioSimpleDTO>> getAllEdificios() {
+            return ResponseEntity.ok(DTOGenerator.toEdificioSimpleDTOList(edificioService.getEdificios()));
         }
 
         @GetMapping("/{codigo}")
-        public ResponseEntity<Edificio> getEdificioByCodigo(@PathVariable int codigo) throws EdificioException {
-            return ResponseEntity.ok(edificioService.getEdificiosByCodigo(codigo));
+        public ResponseEntity<EdificioDTO> getEdificioByCodigo(@PathVariable int codigo) throws EdificioException {
+            return ResponseEntity.ok(DTOGenerator.toEdificioDTO(edificioService.getEdificiosByCodigo(codigo)));
         }
 
         // Obtener habitantes por edificio
         @GetMapping("/{codigo}/habitantes")
-        public ResponseEntity<List<Persona>> getHabitantesPorEdificio(@PathVariable int codigo) throws EdificioException {
-            return ResponseEntity.ok(edificioService.habilitadosPorEdificio(codigo));
+        public ResponseEntity<List<PersonaSimpleDTO>> getHabitantesPorEdificio(@PathVariable int codigo) throws EdificioException {
+            return ResponseEntity.ok(DTOGenerator.toPersonaSimpleDTOList(edificioService.habilitadosPorEdificio(codigo)));
         }
 
         // Obtener dueños por edificio
         @GetMapping("/{codigo}/duenios")
-        public ResponseEntity<List<Persona>> getDueniosPorEdificio(@PathVariable int codigo) throws EdificioException {
-            return ResponseEntity.ok(edificioService.dueniosPorEdificio(codigo));
+        public ResponseEntity<List<PersonaSimpleDTO>> getDueniosPorEdificio(@PathVariable int codigo) throws EdificioException {
+            return ResponseEntity.ok(DTOGenerator.toPersonaSimpleDTOList(edificioService.dueniosPorEdificio(codigo)));
         }
 
         // Obtener inquilinos por edificio
         @GetMapping("/{codigo}/inquilinos")
-        public ResponseEntity<List<Persona>> getInquilinosPorEdificio(@PathVariable int codigo) throws EdificioException {
-            return ResponseEntity.ok(edificioService.inquilinosPorEdificio(codigo));
+        public ResponseEntity<List<PersonaSimpleDTO>> getInquilinosPorEdificio(@PathVariable int codigo) throws EdificioException {
+            return ResponseEntity.ok(DTOGenerator.toPersonaSimpleDTOList(edificioService.inquilinosPorEdificio(codigo)));
         }
 
         // Obtener unidades por edificio
         @GetMapping("/{codigo}/unidades")
-        public ResponseEntity<List<Unidad>> getUnidadesPorEdificio(@PathVariable int codigo) throws EdificioException {
-            return ResponseEntity.ok(edificioService.getUnidadesPorEdificio(codigo));
+        public ResponseEntity<List<UnidadSimpleDTO>> getUnidadesPorEdificio(@PathVariable int codigo) throws EdificioException {
+            return ResponseEntity.ok(DTOGenerator.toUnidadSimpleDTOList(edificioService.getUnidadesPorEdificio(codigo)));
         }
         //Crear edificio
         @PostMapping("/crear")
-        public ResponseEntity<Edificio> crearEdificio(@RequestParam String direccion, String nombre) throws EdificioException {
-            return ResponseEntity.ok(edificioService.agregarEdificio(direccion,nombre));
+        public ResponseEntity<EdificioDTO> crearEdificio(@RequestParam String direccion, String nombre) throws EdificioException {
+            return ResponseEntity.ok(DTOGenerator.toEdificioDTO(edificioService.agregarEdificio(direccion,nombre)));
         }
 
         @GetMapping("/{codigo}/reclamosZonaComun")
-        public ResponseEntity<List<Reclamo>> getReclamosZonaComunPorEdificio(@PathVariable int codigo) throws EdificioException {
-            return ResponseEntity.ok(edificioService.getReclamoZonaComunPorEdificio(codigo));
+        public ResponseEntity<List<ReclamoDTO>> getReclamosZonaComunPorEdificio(@PathVariable int codigo) throws EdificioException {
+            return ResponseEntity.ok(DTOGenerator.toReclamoDTOList(edificioService.getReclamoZonaComunPorEdificio(codigo)));
         }
 
         @GetMapping("/{codigo}/reclamos")
-        public ResponseEntity<List<Reclamo>> getReclamosPorEdificio(@PathVariable int codigo) throws EdificioException {
-            return ResponseEntity.ok(edificioService.getReclamoPorEdificio(codigo));
+        public ResponseEntity<List<ReclamoDTO>> getReclamosPorEdificio(@PathVariable int codigo) throws EdificioException {
+            return ResponseEntity.ok(DTOGenerator.toReclamoDTOList(edificioService.getReclamoPorEdificio(codigo)));
         }
 
 }

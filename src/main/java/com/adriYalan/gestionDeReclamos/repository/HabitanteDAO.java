@@ -41,7 +41,11 @@ public class HabitanteDAO {
     }
 
     public void eliminarHabitantesPorUnidad(int identificadorUnidad) {
-        habitanteRepository.deleteByIdentificador(identificadorUnidad);
+        habitanteRepository.deleteHabitanteByIdentificador(identificadorUnidad);
+    }
+
+    public void eliminarInquilinoPorUnidad(int identificadorUnidad) {
+        habitanteRepository.deleteInquilinoByIdentificador(identificadorUnidad);
     }
 
 }

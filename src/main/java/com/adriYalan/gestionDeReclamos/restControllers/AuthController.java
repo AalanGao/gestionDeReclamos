@@ -70,7 +70,7 @@ public class AuthController {
 
 
     @GetMapping("/me") // Método GET para obtener la información del usuario autenticado
-    public ResponseEntity<?> getAuthenticatedUser(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<String> getAuthenticatedUser(@RequestHeader("Authorization") String token) {
         try {
             // Eliminamos "Bearer " del token para obtener solo el token
             String firebaseToken = token.replace("Bearer ", "");

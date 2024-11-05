@@ -103,15 +103,18 @@ public class ReclamoService {
         return reclamoDAO.guardarReclamo(reclamo).getIdReclamo();
     }
 
-    public void cambiarEstado(int idReclamo, EstadoReclamo estado) throws ReclamoException {
-        Optional<Reclamo> reclamo = reclamoDAO.getReclamoById(idReclamo);
-        if(reclamo.isPresent()) {
-            reclamo.get().setEstadoReclamo(estado);
-            reclamoDAO.guardarReclamo(reclamo.get());
-        } else {
-            throw new ReclamoException("El reclamo no existe.");
-        }
+    public Reclamo cambiarEstado(int idReclamo, int idEstado) throws ReclamoException {
+        EstadoReclamo estado = estadoReclamoDAO.getEstadoReclamoById(idEstado)
+                .orElseThrow(() -> new ReclamoException("El estado no existe."));
+
+        Reclamo reclamo = reclamoDAO.getReclamoById(idReclamo)
+                .orElseThrow(() -> new ReclamoException("El reclamo no existe."));
+
+        // Actualizar el estado y guardar el reclamo
+        reclamo.setEstadoReclamo(estado);
+        return reclamoDAO.guardarReclamo(reclamo);
     }
+
 
     public int contarReclamosPorEstado(int idEstado) {
         return reclamoDAO.contarReclamosPorEstado(idEstado);

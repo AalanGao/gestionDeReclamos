@@ -4,7 +4,6 @@ import com.adriYalan.gestionDeReclamos.entity.Persona;
 import com.adriYalan.gestionDeReclamos.repository.PersonaDAO;
 import com.adriYalan.gestionDeReclamos.exception.PersonaException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -15,9 +14,13 @@ public class PersonaService {
     @Autowired
     private PersonaDAO personaDAO;
 
-    public void agregarPersona(String documento, String nombre) {
-        Persona persona = new Persona(documento, nombre);
-        personaDAO.guardarPersona(persona);
+    public Persona agregarPersona(String documento, String nombre) throws PersonaException {
+        Optional<Persona> persona = personaDAO.getPersonaByDocumento(documento);
+        if (persona.isPresent()) {
+            throw new PersonaException("La persona que intenta crear ya exisite.");
+        }else {
+            return personaDAO.guardarPersona(new Persona(documento, nombre));
+        }
     }
 
     public void eliminarPersona(String documento) throws PersonaException {

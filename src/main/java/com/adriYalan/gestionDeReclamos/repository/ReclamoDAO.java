@@ -42,7 +42,7 @@ public class ReclamoDAO {
     }
 
     public List<Reclamo> ReclamosPorEstado(int idEstado){
-        return instancia.ReclamosPorEstado(idEstado);
+        return reclamoRepository.findReclamosByEstado(idEstado);
     }
 
     public void eliminarReclamo(int idReclamo) {

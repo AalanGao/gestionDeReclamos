@@ -45,7 +45,7 @@ public class UnidadDAO {
     }
 
     public Unidad actualizarUnidad(Unidad unidad) {
-        if (unidad.getIdentificador() > 0 && unidadRepository.existsById(unidad.getIdentificador())) {
+        if (unidadRepository.existsById(unidad.getIdentificador())) {
             return unidadRepository.save(unidad);
         }
         return null;

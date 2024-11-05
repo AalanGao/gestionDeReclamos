@@ -18,5 +18,10 @@ public interface HabitanteRepository extends JpaRepository<Habitante, Integer> {
     @Modifying
     @Transactional
     @Query("DELETE FROM Habitante h WHERE h.identificador = :identificadorUnidad")
-    void deleteByIdentificador(@Param("identificadorUnidad") int identificadorUnidad);
+    void deleteHabitanteByIdentificador(@Param("identificadorUnidad") int identificadorUnidad);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM Inquilino h WHERE h.identificador = :identificadorUnidad")
+    void deleteInquilinoByIdentificador(@Param("identificadorUnidad") int identificadorUnidad);
 }

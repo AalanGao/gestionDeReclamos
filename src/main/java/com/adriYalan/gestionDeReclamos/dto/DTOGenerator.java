@@ -5,6 +5,7 @@ import com.adriYalan.gestionDeReclamos.entity.Persona;
 import com.adriYalan.gestionDeReclamos.entity.Reclamo;
 import com.adriYalan.gestionDeReclamos.entity.Unidad;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,18 +14,26 @@ public class DTOGenerator {
         return new PersonaDTO(
                 persona.getDocumento(),
                 persona.getNombre(),
-                persona.getReclamos().stream()
-                        .map(DTOGenerator::toReclamoDTO)
-                        .collect(Collectors.toList()),
-                persona.getUnidadesComoDuenio().stream()
-                        .map(DTOGenerator::toUnidadSimpleDTO)
-                        .collect(Collectors.toList()),
-                persona.getUnidadesComoInquilino().stream()
-                        .map(DTOGenerator::toUnidadSimpleDTO)
-                        .collect(Collectors.toList()),
-                persona.getUnidadesComoHabitante().stream()
-                        .map(DTOGenerator::toUnidadSimpleDTO)
-                        .collect(Collectors.toList())
+                persona.getReclamos() != null ?
+                        persona.getReclamos().stream()
+                                .map(DTOGenerator::toReclamoDTO)
+                                .collect(Collectors.toList())
+                        : Collections.emptyList(),
+                persona.getUnidadesComoDuenio() != null ?
+                        persona.getUnidadesComoDuenio().stream()
+                                .map(DTOGenerator::toUnidadSimpleDTO)
+                                .collect(Collectors.toList())
+                        : Collections.emptyList(),
+                persona.getUnidadesComoInquilino() != null ?
+                        persona.getUnidadesComoInquilino().stream()
+                                .map(DTOGenerator::toUnidadSimpleDTO)
+                                .collect(Collectors.toList())
+                        : Collections.emptyList(),
+                persona.getUnidadesComoHabitante() != null ?
+                        persona.getUnidadesComoHabitante().stream()
+                                .map(DTOGenerator::toUnidadSimpleDTO)
+                                .collect(Collectors.toList())
+                        : Collections.emptyList()
         );
     }
 
@@ -81,7 +90,10 @@ public class DTOGenerator {
     }
 
     public static UnidadSimpleDTO toUnidadSimpleDTO(Unidad unidad) {
-        return new UnidadSimpleDTO(unidad.getIdentificador(), unidad.getPiso(), unidad.getNumero(), unidad.getHabitado());
+        if (unidad != null) {
+            return new UnidadSimpleDTO(unidad.getIdentificador(), unidad.getPiso(), unidad.getNumero(), unidad.getHabitado());
+        }
+        return null;
     }
 
     // Reclamo
@@ -89,20 +101,40 @@ public class DTOGenerator {
         return new ReclamoDTO(
                 reclamo.getIdReclamo(),
                 toPersonaSimpleDTO(reclamo.getPersona()),
-                toEdificioSimpleDTO(reclamo.getUnidad().getEdificio()),
-                toUnidadSimpleDTO(reclamo.getUnidad()),
+                reclamo.getUnidad() != null ? toEdificioSimpleDTO(reclamo.getUnidad().getEdificio()) : null,
+                reclamo.getUnidad() != null ? toUnidadSimpleDTO(reclamo.getUnidad()) : null,
                 reclamo.getDescripcion(),
                 reclamo.getTipoReclamo(),
                 reclamo.getEstadoReclamo(),
                 reclamo.getFechaCreacion(),
-                reclamo.getImagenes()
+                reclamo.getUbicacion() != null ? reclamo.getUbicacion() : null,
+                reclamo.getImagenes() != null ? reclamo.getImagenes() : Collections.emptyList()
         );
     }
+
 
     public static List<ReclamoDTO> toReclamoDTOList(List<Reclamo> reclamos) {
         return reclamos.stream()
                 .map(DTOGenerator::toReclamoDTO)
                 .collect(Collectors.toList());
 
+    }
+
+    public static List<EdificioSimpleDTO> toEdificioSimpleDTOList(List<Edificio> edificios) {
+        return edificios.stream()
+                .map(DTOGenerator::toEdificioSimpleDTO)
+                .collect(Collectors.toList());
+    }
+
+    public static List<PersonaSimpleDTO> toPersonaSimpleDTOList(List<Persona> personas) {
+        return personas.stream()
+                .map(DTOGenerator::toPersonaSimpleDTO)
+                .collect(Collectors.toList());
+    }
+
+    public static List<UnidadSimpleDTO> toUnidadSimpleDTOList(List<Unidad> unidades) {
+        return unidades.stream()
+                .map(DTOGenerator::toUnidadSimpleDTO)
+                .collect(Collectors.toList());
     }
 }
