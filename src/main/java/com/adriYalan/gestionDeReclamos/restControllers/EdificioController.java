@@ -62,8 +62,8 @@ public class EdificioController {
         }
         //Crear edificio
         @PostMapping("/crear")
-        public ResponseEntity<EdificioDTO> crearEdificio(@RequestParam String direccion, String nombre) throws EdificioException {
-            return ResponseEntity.ok(DTOGenerator.toEdificioDTO(edificioService.agregarEdificio(direccion,nombre)));
+        public ResponseEntity<EdificioSimpleDTO> crearEdificio(@RequestParam String direccion, String nombre) throws EdificioException {
+            return ResponseEntity.ok(DTOGenerator.toEdificioSimpleDTO(edificioService.agregarEdificio(direccion,nombre)));
         }
 
         @GetMapping("/{codigo}/reclamosZonaComun")
