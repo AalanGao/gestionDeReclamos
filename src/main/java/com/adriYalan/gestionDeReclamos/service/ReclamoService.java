@@ -34,6 +34,10 @@ public class ReclamoService {
     @Autowired
     private UnidadService unidadService;
 
+    public List<Reclamo> allReclamos() {
+        return reclamoDAO.getAllReclamos();
+    }
+
     public List<Reclamo> reclamosPorEdificio(int codigo) {
         return edificioDAO.getEdificioByCodigo((long)codigo).get().getReclamos();
     }

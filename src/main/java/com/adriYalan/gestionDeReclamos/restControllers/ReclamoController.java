@@ -35,6 +35,12 @@ public class ReclamoController {
     @Autowired
     private ImagenRepository imagenRepository;
 
+    @GetMapping()
+    public ResponseEntity<List<ReclamoDTO>> obtenerReclamos() {
+        List<Reclamo> reclamos = reclamoService.allReclamos();
+        return ResponseEntity.ok(DTOGenerator.toReclamoDTOList(reclamos));
+    }
+
     // Obtener reclamos por código de edificio
     @GetMapping("/edificio/{codigo}")
     public ResponseEntity<List<ReclamoDTO>> obtenerReclamosPorEdificio(@PathVariable int codigo) {
