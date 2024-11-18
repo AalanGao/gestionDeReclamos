@@ -83,7 +83,7 @@ public class UnidadController {
 
     // Agregar una nueva unidad
     @PostMapping("/agregar")
-    public ResponseEntity<UnidadDTO> agregarUnidad(@RequestParam int codigo, @RequestParam String piso, @RequestParam String numero) throws PersonaException {
+    public ResponseEntity<UnidadDTO> agregarUnidad(@RequestParam int codigo, @RequestParam String piso, @RequestParam String numero) throws UnidadException{
         Unidad nuevaUnidad = unidadService.agregarUnidad(codigo, piso, numero);
         return ResponseEntity.ok(DTOGenerator.toUnidadDTO(nuevaUnidad));
     }
