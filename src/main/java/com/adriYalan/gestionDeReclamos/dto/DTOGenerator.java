@@ -91,7 +91,7 @@ public class DTOGenerator {
 
     public static UnidadSimpleDTO toUnidadSimpleDTO(Unidad unidad) {
         if (unidad != null) {
-            return new UnidadSimpleDTO(unidad.getIdentificador(), unidad.getPiso(), unidad.getNumero(), unidad.getHabitado());
+            return new UnidadSimpleDTO(unidad.getIdentificador(), unidad.getPiso(), unidad.getNumero(), unidad.getHabitado(), unidad.getEdificio().getCodigo().toString());
         }
         return null;
     }

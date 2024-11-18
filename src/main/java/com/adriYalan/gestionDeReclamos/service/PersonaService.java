@@ -6,6 +6,7 @@ import com.adriYalan.gestionDeReclamos.exception.PersonaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -13,6 +14,10 @@ public class PersonaService {
 
     @Autowired
     private PersonaDAO personaDAO;
+
+    public List<Persona> getAll() {
+        return personaDAO.getAllPersonas();
+    }
 
     public Persona agregarPersona(String documento, String nombre) throws PersonaException {
         Optional<Persona> persona = personaDAO.getPersonaByDocumento(documento);

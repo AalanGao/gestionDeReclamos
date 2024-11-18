@@ -28,6 +28,11 @@ public class PersonaController {
         return ResponseEntity.ok(DTOGenerator.toPersonaDTO(personaService.agregarPersona(documento, nombre)));
     }
 
+    @GetMapping()
+    public ResponseEntity<List<PersonaSimpleDTO>> getPersona() throws PersonaException {
+        return ResponseEntity.ok(DTOGenerator.toPersonaSimpleDTOList(personaService.getAll()));
+    }
+
     //Get persona by documento
     @GetMapping("/{documento}")
     public ResponseEntity<PersonaDTO> getPersonaByDocumento(@PathVariable String documento) throws PersonaException {

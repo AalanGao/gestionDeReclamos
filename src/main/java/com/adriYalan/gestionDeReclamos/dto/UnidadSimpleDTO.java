@@ -12,4 +12,5 @@ public class UnidadSimpleDTO {
     private String piso;
     private String numero;
     private String habitado;
+    private String codigoEdificio;
 }
