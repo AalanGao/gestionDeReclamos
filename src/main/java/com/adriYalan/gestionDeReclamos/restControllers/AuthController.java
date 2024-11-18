@@ -16,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -70,7 +72,7 @@ public class AuthController {
 
 
     @GetMapping("/me") // Método GET para obtener la información del usuario autenticado
-    public ResponseEntity<String> getAuthenticatedUser(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<Usuario> getAuthenticatedUser(@RequestHeader("Authorization") String token) throws PersonaException {
         try {
             // Eliminamos "Bearer " del token para obtener solo el token
             String firebaseToken = token.replace("Bearer ", "");
@@ -80,21 +82,28 @@ public class AuthController {
             // Buscamos el usuario en la base de datos usando el email
             Usuario usuario = usuarioService.getUsuarioPorEmail(email);
             if (usuario == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("Usuario no encontrado: " + email);
+                throw new PersonaException("El usuario no existe");
             }
-
             // Retornamos la información del usuario
-            return ResponseEntity.ok("Usuario autenticado: " + email + " con rol: " + usuario.getRol());
+            return ResponseEntity.ok(usuario);
         } catch (FirebaseAuthException e) {
             e.printStackTrace(); // Esto imprime la traza del error en la consola
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body("Error de autenticación: " + e.getMessage());
+            throw new PersonaException("El usuario no existe");
         } catch (Exception e) {
             e.printStackTrace(); // Captura otros errores no previstos
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error interno del servidor: " + e.getMessage());
+            throw new PersonaException("El usuario no existe");
         }
 
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestParam String mail, @RequestParam String contraseña) {
+        Usuario usuario = usuarioService.getUsuarioPorEmail(mail);
+        if (usuario == null || !usuario.getPassword().equals(contraseña)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales inválidas");
+        }
+        return ResponseEntity.ok(Map.of("message", "Login exitoso", "role", usuario.getRol()));
+    }
+
+
 }
