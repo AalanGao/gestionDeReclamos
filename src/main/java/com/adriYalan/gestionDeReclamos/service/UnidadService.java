@@ -27,6 +27,8 @@ public class UnidadService {
 
     @Autowired
     private EdificioDAO edificioDAO;
+    @Autowired
+    private PersonaService personaService;
 
     public Unidad getUnidad(int codigo, String piso, String numero) throws UnidadException {
         Optional<Unidad> unidadOpt = unidadDAO.getUnidadByDetalles(codigo, piso, numero);
@@ -49,12 +51,62 @@ public class UnidadService {
         return this.getUnidad(codigo,piso,numero).getHabitantes();
     }
 
-    public void agregarDuenioUnidad(int codigo, String piso, String numero, String documento) throws UnidadException, PersonaException {
-        Unidad unidad = unidadDAO.getUnidadByDetalles(codigo, piso, numero)
-                .orElseThrow(() -> new UnidadException("La unidad no existe."));
+    public void eliminarDuenioUnidad(int codigo, String piso, String numero, String documento) throws UnidadException, PersonaException {
+        Unidad unidad = this.getUnidad(codigo,piso,numero);
+        Persona persona = personaService.getPersonaByDocumento(documento);
 
-        Persona persona = personaDAO.getPersonaByDocumento(documento)
-                .orElseThrow(() -> new PersonaException("La persona no existe."));
+        boolean duenioExiste = unidad.getDuenios().stream()
+                .anyMatch(duenio -> duenio.getDocumento().equals(documento));
+
+        if (!duenioExiste) {
+            throw new UnidadException("La persona no es dueño de esta Unidad");
+        }
+
+        unidad.getDuenios().remove(persona);
+        unidadDAO.actualizarUnidad(unidad);
+    }
+
+    public void eliminarInquilinoUnidad(int codigo, String piso, String numero, String documento) throws UnidadException, PersonaException {
+        Unidad unidad = this.getUnidad(codigo,piso,numero);
+        Persona persona = personaService.getPersonaByDocumento(documento);
+
+        boolean inquilinoExiste = unidad.getInquilinos().stream()
+                .anyMatch(duenio -> duenio.getDocumento().equals(documento));
+
+        if (!inquilinoExiste) {
+            throw new UnidadException("La persona no es inquilino de esta Unidad");
+        }
+
+        unidad.getInquilinos().remove(persona);
+        unidad.actualizarHabitado();
+        unidadDAO.actualizarUnidad(unidad);
+    }
+
+    public void eliminarHabitanteUnidad(int codigo, String piso, String numero, String documento) throws UnidadException, PersonaException {
+        Unidad unidad = this.getUnidad(codigo,piso,numero);
+
+        Persona persona = personaService.getPersonaByDocumento(documento);
+
+        boolean habitanteExiste = unidad.getHabitantes().stream()
+                .anyMatch(habitante -> habitante.getDocumento().equals(documento));
+
+        if (!habitanteExiste) {
+            throw new UnidadException("La persona no es habitante de esta unidad.");
+        }
+
+        if (!unidad.estaHabitado()) {
+            unidad.habitar();
+        }
+
+        unidad.getHabitantes().remove(persona);
+        unidad.actualizarHabitado();
+        unidadDAO.actualizarUnidad(unidad);
+    }
+
+    public void agregarDuenioUnidad(int codigo, String piso, String numero, String documento) throws UnidadException, PersonaException {
+        Unidad unidad = this.getUnidad(codigo,piso,numero);
+
+        Persona persona = personaService.getPersonaByDocumento(documento);
 
         boolean duenioExiste = unidad.getDuenios().stream()
                 .anyMatch(duenio -> duenio.getDocumento().equals(documento));
@@ -68,11 +120,9 @@ public class UnidadService {
     }
 
     public void transferirUnidad(int codigo, String piso, String numero, String documento) throws UnidadException, PersonaException {
-        Unidad unidad = unidadDAO.getUnidadByDetalles(codigo, piso, numero)
-                .orElseThrow(() -> new UnidadException("La unidad no existe."));
+        Unidad unidad = this.getUnidad(codigo,piso,numero);
 
-        Persona persona = personaDAO.getPersonaByDocumento(documento)
-                .orElseThrow(() -> new PersonaException("La persona no existe."));
+        Persona persona = personaService.getPersonaByDocumento(documento);
 
         List<Persona> duenios = new ArrayList<>();
         duenios.add(persona);
@@ -82,11 +132,9 @@ public class UnidadService {
     }
 
     public void agregarInquilinoUnidad(int codigo, String piso, String numero, String documento) throws UnidadException, PersonaException {
-        Unidad unidad = unidadDAO.getUnidadByDetalles(codigo, piso, numero)
-                .orElseThrow(() -> new UnidadException("La unidad no existe."));
+        Unidad unidad = this.getUnidad(codigo,piso,numero);
 
-        Persona persona = personaDAO.getPersonaByDocumento(documento)
-                .orElseThrow(() -> new PersonaException("La persona no existe."));
+        Persona persona = personaService.getPersonaByDocumento(documento);
 
         boolean inquilinoExiste = unidad.getInquilinos().stream()
                 .anyMatch(inquilino -> inquilino.getDocumento().equals(documento));
@@ -95,16 +143,18 @@ public class UnidadService {
             throw new UnidadException("La persona ya es inquilino en esta unidad.");
         }
 
+        if (!unidad.estaHabitado()) {
+            unidad.habitar();
+        }
+
         unidad.getInquilinos().add(persona);
         unidadDAO.actualizarUnidad(unidad);
     }
 
     public void agregarHabitanteUnidad(int codigo, String piso, String numero, String documento) throws UnidadException, PersonaException {
-        Unidad unidad = unidadDAO.getUnidadByDetalles(codigo, piso, numero)
-                .orElseThrow(() -> new UnidadException("La unidad no existe."));
+        Unidad unidad = this.getUnidad(codigo,piso,numero);
 
-        Persona persona = personaDAO.getPersonaByDocumento(documento)
-                .orElseThrow(() -> new PersonaException("La persona no existe."));
+        Persona persona = personaService.getPersonaByDocumento(documento);
 
         boolean habitanteExiste = unidad.getHabitantes().stream()
                 .anyMatch(habitante -> habitante.getDocumento().equals(documento));
@@ -123,8 +173,7 @@ public class UnidadService {
 
     @Transactional
     public void liberarUnidad(int codigo, String piso, String numero) throws UnidadException {
-        Unidad unidad = unidadDAO.getUnidadByDetalles(codigo, piso, numero)
-                .orElseThrow(() -> new UnidadException("La unidad no existe."));
+        Unidad unidad = this.getUnidad(codigo,piso,numero);
 
         int identificadorUnidad = unidad.getIdentificador();
         habitanteDAO.eliminarHabitantesPorUnidad(identificadorUnidad);

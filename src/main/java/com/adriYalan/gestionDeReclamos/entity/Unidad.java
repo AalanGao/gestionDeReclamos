@@ -115,6 +115,14 @@ public class Unidad {
         return "S".equalsIgnoreCase(this.habitado);
     }
 
+    public void actualizarHabitado(){
+        if(this.habitantes.isEmpty() && this.inquilinos.isEmpty()){
+            this.habitado = "N";
+        }else {
+            this.habitado = "S";
+        }
+    }
+
     public void habitar() {
         this.habitado = "S";
     }
