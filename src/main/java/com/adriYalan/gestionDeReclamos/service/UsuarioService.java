@@ -42,4 +42,8 @@ public class UsuarioService {
     public Usuario save(Usuario usuario) {
         return usuarioDAO.saveUsuario(usuario);
     }
+
+    public void deleteUsuario(String email){
+        usuarioDAO.deleteUsuario(email);
+    }
 }

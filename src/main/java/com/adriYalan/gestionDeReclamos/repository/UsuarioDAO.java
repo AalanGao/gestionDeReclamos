@@ -12,17 +12,15 @@ public class UsuarioDAO {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-
-
     public Usuario saveUsuario(Usuario usuario) {
         return usuarioRepository.save(usuario);
     }
 
-   // public Usuario findByUid(String uid) {
-     //   return usuarioRepository.findByUid(uid);
-    //}
-
     public Usuario findByEmail(String email) {
         return usuarioRepository.findByEmail(email);
+    }
+
+    public void deleteUsuario(String email) {
+        usuarioRepository.delete(findByEmail(email));
     }
 }

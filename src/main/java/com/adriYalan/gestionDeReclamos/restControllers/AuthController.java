@@ -3,6 +3,7 @@ package com.adriYalan.gestionDeReclamos.restControllers;
 import com.adriYalan.gestionDeReclamos.dto.models.LoginRequest; // Importa la clase LoginRequest
 import com.adriYalan.gestionDeReclamos.entity.Persona;
 import com.adriYalan.gestionDeReclamos.entity.Usuario; // Importa la entidad Usuario
+import com.adriYalan.gestionDeReclamos.exception.EdificioException;
 import com.adriYalan.gestionDeReclamos.exception.PersonaException;
 import com.adriYalan.gestionDeReclamos.repository.UsuarioDAO;
 import com.adriYalan.gestionDeReclamos.service.PersonaService;
@@ -104,6 +105,15 @@ public class AuthController {
         }
         return ResponseEntity.ok(Map.of("message", "Login exitoso", "role", usuario.getRol()));
     }
+
+    @DeleteMapping("/eliminar")
+    public ResponseEntity<String> eliminarUsuario(@RequestParam String mail) throws EdificioException, FirebaseAuthException {
+        usuarioService.deleteUsuario(mail);
+        UserRecord userRecord = FirebaseAuth.getInstance().getUserByEmail(mail);
+        FirebaseAuth.getInstance().deleteUser(userRecord.getUid());
+        return ResponseEntity.ok("Usuario Eliminado correctamente.");
+    }
+
 
 
 }

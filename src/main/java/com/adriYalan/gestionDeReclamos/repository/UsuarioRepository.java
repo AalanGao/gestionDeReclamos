@@ -14,4 +14,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     // Método para buscar un usuario por su correo electrónico
     Usuario findByEmail(String email); //
+
+    void deleteByDocumento(String documento);
 }
