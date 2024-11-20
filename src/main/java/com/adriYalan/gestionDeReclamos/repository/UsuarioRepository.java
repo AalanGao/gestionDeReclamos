@@ -4,6 +4,8 @@ import com.adriYalan.gestionDeReclamos.entity.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     // Método para buscar un usuario por su nombre de usuario
@@ -13,7 +15,11 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     //Usuario findByUid(String uid); // Asegúrate de que 'uid' sea un campo en tu entidad Usuario
 
     // Método para buscar un usuario por su correo electrónico
-    Usuario findByEmail(String email); //
+    Usuario findByEmail(String email);
+
+    Optional<Usuario> findByDocumento(String documento);//
 
     void deleteByDocumento(String documento);
+
+    void deleteByEmail(String email);
 }

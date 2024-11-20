@@ -20,7 +20,15 @@ public class UsuarioDAO {
         return usuarioRepository.findByEmail(email);
     }
 
+    public Optional<Usuario> findByEmailOptional(String email) {
+        return Optional.ofNullable(usuarioRepository.findByEmail(email));
+    }
+
+    public Optional<Usuario> findByDocumento(String documento) {
+        return usuarioRepository.findByDocumento(documento);
+    }
+
     public void deleteUsuario(String email) {
-        usuarioRepository.delete(findByEmail(email));
+        usuarioRepository.deleteByEmail(email);
     }
 }

@@ -45,7 +45,7 @@ public class Reclamo {
     @Column(name = "fechacreacion", nullable = false)
     private LocalDateTime fechaCreacion;
 
-    @OneToMany(mappedBy = "idReclamo", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idReclamo", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Imagen> imagenes;
 
     public Reclamo() {}

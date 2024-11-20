@@ -1,6 +1,7 @@
 package com.adriYalan.gestionDeReclamos.service;
 
 import com.adriYalan.gestionDeReclamos.entity.Usuario;
+import com.adriYalan.gestionDeReclamos.exception.UsuarioException;
 import com.adriYalan.gestionDeReclamos.repository.UsuarioDAO;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
@@ -34,10 +35,22 @@ public class UsuarioService {
         }
     }
 
-    public Usuario getUsuarioPorEmail(String email) {
-        return usuarioDAO.findByEmail(email); // Ahora busca por email
+    public Usuario getUsuarioPorEmail(String email)throws UsuarioException {
+        Optional<Usuario> usuario =  usuarioDAO.findByEmailOptional(email);
+        if(usuario.isPresent()){
+            return usuario.get();
+        } else {
+            throw new UsuarioException("Usuario no encontrado");
+        }
     }
 
+    public Usuario getUsuarioDocumento(String documento) throws UsuarioException {
+        if(usuarioDAO.findByDocumento(documento).isPresent()){
+            return usuarioDAO.findByDocumento(documento).get();
+        } else {
+            throw new UsuarioException("Usuario no encontrado");
+        }
+    }
 
     public Usuario save(Usuario usuario) {
         return usuarioDAO.saveUsuario(usuario);

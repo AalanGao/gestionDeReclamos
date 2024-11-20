@@ -20,9 +20,6 @@ public class UnidadService {
     private UnidadDAO unidadDAO;
 
     @Autowired
-    private PersonaDAO personaDAO;
-
-    @Autowired
     private HabitanteDAO habitanteDAO;
 
     @Autowired
@@ -37,7 +34,6 @@ public class UnidadService {
         }
         return unidadOpt.get();
     }
-
 
     public List<Persona> dueniosPorUnidad(int codigo, String piso, String numero) throws UnidadException {
         return this.getUnidad(codigo,piso,numero).getDuenios();

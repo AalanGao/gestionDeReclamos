@@ -33,6 +33,8 @@ public class ReclamoService {
     private EdificioService edificioService;
     @Autowired
     private UnidadService unidadService;
+    @Autowired
+    private FirebaseStorageService firebaseStorageService;
 
     public List<Reclamo> allReclamos() {
         return reclamoDAO.getAllReclamos();
@@ -44,10 +46,6 @@ public class ReclamoService {
 
     public List<Reclamo> reclamosPorUnidad(int id) {
         return unidadDAO.getUnidadById(id).get().getReclamos();
-    }
-
-    public Reclamo reclamosPorNumero(int id) {
-        return reclamoDAO.getReclamoById(id).get();
     }
 
     public List<Reclamo> reclamosPorPersona(String documento) {
@@ -114,6 +112,20 @@ public class ReclamoService {
         return reclamoDAO.ReclamosPorEstado(idEstado);
     }
 
+    public void deleteReclamoList(List<Reclamo> reclamos) throws ReclamoException {
+        for (Reclamo reclamo : reclamos) {
+            deleteRelamoById(reclamo.getIdReclamo());
+            for (Imagen img : reclamo.getImagenes()) {
+                firebaseStorageService.deleteFileByLink(img.getPath());
+            }
+        }
+    }
+
+    public void deleteRelamoById(int idReclamo) throws ReclamoException {
+        Reclamo reclamo = getReclamoById(idReclamo);
+        reclamoDAO.eliminarReclamo(reclamo.getIdReclamo());
+    }
+
     private EstadoReclamo getEstadoReclamoById(int idEstado) {
         return estadoReclamoDAO.getEstadoReclamoById(idEstado)
                 .orElseThrow(() -> new ReclamoException("El estado no existe."));
@@ -128,6 +140,8 @@ public class ReclamoService {
         return ubicacionDAO.getUbicacionById(idUbicacion)
                 .orElseThrow(() -> new UnidadException("La ubicación no existe."));
     }
+
+
 
     // Todo gestion de tipo reclamo, estado reclamo, ubicaciones
 

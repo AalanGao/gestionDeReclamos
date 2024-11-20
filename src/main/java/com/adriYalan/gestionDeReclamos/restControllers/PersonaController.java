@@ -4,6 +4,7 @@ import com.adriYalan.gestionDeReclamos.dto.*;
 import com.adriYalan.gestionDeReclamos.entity.Persona;
 import com.adriYalan.gestionDeReclamos.exception.PersonaException;
 import com.adriYalan.gestionDeReclamos.service.PersonaService;
+import com.google.firebase.auth.FirebaseAuthException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -48,7 +49,7 @@ public class PersonaController {
 
     // Eliminar una persona
     @DeleteMapping("/{documento}")
-    public ResponseEntity<String> eliminarPersona(@PathVariable String documento) throws PersonaException {
+    public ResponseEntity<String> eliminarPersona(@PathVariable String documento) throws PersonaException, FirebaseAuthException {
         personaService.eliminarPersona(documento);
         return ResponseEntity.ok("Persona Eliminado.");
     }

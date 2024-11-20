@@ -58,7 +58,7 @@ public class ReclamoController {
     // Obtener reclamo por número de reclamo
     @GetMapping("/{id}")
     public ResponseEntity<ReclamoDTO> obtenerReclamoPorNumero(@PathVariable int id) {
-        Reclamo reclamo = reclamoService.reclamosPorNumero(id);
+        Reclamo reclamo = reclamoService.getReclamoById(id);
         return ResponseEntity.ok(DTOGenerator.toReclamoDTO(reclamo));
     }
 

@@ -2,6 +2,7 @@ package com.adriYalan.gestionDeReclamos.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Setter;
 
 import java.util.List;
 
@@ -9,13 +10,16 @@ import java.util.List;
 @Table(name = "personas")
 public class Persona {
 
+    @Setter
     @Id
     @Column(name = "documento", nullable = false)
     private String documento;
 
+    @Setter
     @Column(name = "nombre", nullable = false)
     private String nombre;
 
+    @Setter
     @OneToMany(mappedBy = "persona", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Reclamo> reclamos;
@@ -44,24 +48,12 @@ public class Persona {
         return documento;
     }
 
-    public void setDocumento(String documento) {
-        this.documento = documento;
-    }
-
     public String getNombre() {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
     public List<Reclamo> getReclamos() {
         return reclamos;
-    }
-
-    public void setReclamos(List<Reclamo> reclamos) {
-        this.reclamos = reclamos;
     }
 
     public List<Unidad> getUnidadesComoDuenio() {
