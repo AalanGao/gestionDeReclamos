@@ -19,6 +19,8 @@ public class EdificioService {
 
     @Autowired
     private EdificioDAO edificioDAO;
+    @Autowired
+    private UnidadService unidadService;
 
     public List<Edificio> getEdificios() {
         return edificioDAO.getAllEdificios();
@@ -83,5 +85,13 @@ public class EdificioService {
     public List<Reclamo> getReclamoPorEdificio(int codigoEdificio) throws EdificioException {
         Edificio edificio = getEdificiosByCodigo(codigoEdificio);
         return edificio.getReclamos();
+    }
+
+    public void eliminarEdifico(int codigoEdificio) throws EdificioException {
+        Edificio edificio = getEdificiosByCodigo(codigoEdificio);
+        for (Unidad unidad : edificio.getUnidades()) {
+            unidadService.eliminarUnidad(codigoEdificio, unidad.getPiso(), unidad.getNumero());
+        }
+        edificioDAO.eliminarEdificio(edificio.getCodigo());
     }
 }

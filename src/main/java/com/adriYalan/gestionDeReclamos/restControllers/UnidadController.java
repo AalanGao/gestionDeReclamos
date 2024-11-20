@@ -92,6 +92,12 @@ public class UnidadController {
         return ResponseEntity.ok("Duenio Eliminado correctamente.");
     }
 
+    @DeleteMapping("/eliminar")
+    public ResponseEntity<String> eliminarDuenioUnidad(@RequestParam int codigo, @RequestParam String piso, @RequestParam String numero) throws PersonaException {
+        unidadService.eliminarUnidad(codigo, piso, numero);
+        return ResponseEntity.ok("Unidad Eliminado correctamente.");
+    }
+
     // Liberar una unidad de todos sus habitantes
     @DeleteMapping("liberar")
     public ResponseEntity<String> liberarUnidad(@RequestParam int codigo, @RequestParam String piso, @RequestParam String numero) throws UnidadException{

@@ -171,7 +171,6 @@ public class UnidadService {
         unidadDAO.actualizarUnidad(unidad);
     }
 
-    @Transactional
     public void liberarUnidad(int codigo, String piso, String numero) throws UnidadException {
         Unidad unidad = this.getUnidad(codigo,piso,numero);
 
@@ -198,5 +197,10 @@ public class UnidadService {
         Unidad nuevaUnidad = new Unidad(piso, numero, edificio);
 
         return unidadDAO.guardarUnidad(nuevaUnidad);
+    }
+
+    public void eliminarUnidad(int codigo, String piso, String numero) throws UnidadException {
+        Unidad unidad = this.getUnidad(codigo,piso,numero);
+        unidadDAO.eliminarUnidad(unidad.getIdentificador());
     }
 }

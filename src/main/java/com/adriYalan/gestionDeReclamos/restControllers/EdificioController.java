@@ -5,6 +5,7 @@ import com.adriYalan.gestionDeReclamos.entity.Persona;
 import com.adriYalan.gestionDeReclamos.entity.Reclamo;
 import com.adriYalan.gestionDeReclamos.entity.Unidad;
 import com.adriYalan.gestionDeReclamos.exception.EdificioException;
+import com.adriYalan.gestionDeReclamos.exception.PersonaException;
 import com.adriYalan.gestionDeReclamos.repository.EdificioDAO;
 import com.adriYalan.gestionDeReclamos.service.EdificioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +75,12 @@ public class EdificioController {
         @GetMapping("/{codigo}/reclamos")
         public ResponseEntity<List<ReclamoDTO>> getReclamosPorEdificio(@PathVariable int codigo) throws EdificioException {
             return ResponseEntity.ok(DTOGenerator.toReclamoDTOList(edificioService.getReclamoPorEdificio(codigo)));
+        }
+
+        @DeleteMapping("/{codigo}/eliminar")
+        public ResponseEntity<String> eliminarEdificio(@PathVariable int codigo) throws EdificioException {
+            edificioService.eliminarEdifico(codigo);
+            return ResponseEntity.ok("Edificio Eliminado correctamente.");
         }
 
 }
