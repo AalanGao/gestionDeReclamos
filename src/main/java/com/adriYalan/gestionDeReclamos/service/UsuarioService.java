@@ -44,8 +44,13 @@ public class UsuarioService {
         }
     }
 
-    public Optional<Usuario> getUsuarioDocumento(String documento) {
-        return usuarioDAO.findByDocumento(documento);
+    public Usuario getUsuarioDocumento(String documento) {
+        Optional<Usuario> usuario =  usuarioDAO.findByDocumento(documento);
+        if(usuario.isPresent()){
+            return usuario.get();
+        } else {
+            throw new UsuarioException("Usuario no encontrado");
+        }
     }
 
     public Usuario save(Usuario usuario) {

@@ -1,10 +1,15 @@
 package com.adriYalan.gestionDeReclamos.restControllers;
 
+import com.adriYalan.gestionDeReclamos.dto.DTOGenerator;
+import com.adriYalan.gestionDeReclamos.dto.ReclamoDTO;
+import com.adriYalan.gestionDeReclamos.dto.UsuarioDTO;
 import com.adriYalan.gestionDeReclamos.dto.models.LoginRequest; // Importa la clase LoginRequest
 import com.adriYalan.gestionDeReclamos.entity.Persona;
+import com.adriYalan.gestionDeReclamos.entity.Reclamo;
 import com.adriYalan.gestionDeReclamos.entity.Usuario; // Importa la entidad Usuario
 import com.adriYalan.gestionDeReclamos.exception.EdificioException;
 import com.adriYalan.gestionDeReclamos.exception.PersonaException;
+import com.adriYalan.gestionDeReclamos.exception.UsuarioException;
 import com.adriYalan.gestionDeReclamos.repository.UsuarioDAO;
 import com.adriYalan.gestionDeReclamos.service.PersonaService;
 import com.adriYalan.gestionDeReclamos.service.UsuarioService; // Importa el servicio UsuarioService
@@ -17,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -25,11 +31,15 @@ public class AuthController {
 
     @Autowired
     private FirebaseAuth firebaseAuth;
-
     @Autowired
     private UsuarioService usuarioService;
     @Autowired
     private PersonaService personaService;
+
+    @GetMapping("/{documento}")
+    public ResponseEntity<UsuarioDTO> getUsuarioByDocumento(@PathVariable String documento) throws UsuarioException {
+        return ResponseEntity.ok(DTOGenerator.toUsuarioDTO(usuarioService.getUsuarioDocumento(documento)));
+    }
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestParam String documento,@RequestParam String rol) throws PersonaException {

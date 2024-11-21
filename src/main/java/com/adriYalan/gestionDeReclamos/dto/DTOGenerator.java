@@ -1,9 +1,6 @@
 package com.adriYalan.gestionDeReclamos.dto;
 
-import com.adriYalan.gestionDeReclamos.entity.Edificio;
-import com.adriYalan.gestionDeReclamos.entity.Persona;
-import com.adriYalan.gestionDeReclamos.entity.Reclamo;
-import com.adriYalan.gestionDeReclamos.entity.Unidad;
+import com.adriYalan.gestionDeReclamos.entity.*;
 
 import java.util.Collections;
 import java.util.List;
@@ -136,5 +133,9 @@ public class DTOGenerator {
         return unidades.stream()
                 .map(DTOGenerator::toUnidadSimpleDTO)
                 .collect(Collectors.toList());
+    }
+
+    public static UsuarioDTO toUsuarioDTO(Usuario usuario) {
+        return new UsuarioDTO(usuario.getEmail(), usuario.getPassword(), usuario.getDocumento(), usuario.getRol());
     }
 }

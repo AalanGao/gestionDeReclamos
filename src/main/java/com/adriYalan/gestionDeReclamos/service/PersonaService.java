@@ -6,6 +6,7 @@ import com.adriYalan.gestionDeReclamos.entity.Usuario;
 import com.adriYalan.gestionDeReclamos.repository.PersonaDAO;
 import com.adriYalan.gestionDeReclamos.exception.PersonaException;
 import com.adriYalan.gestionDeReclamos.repository.UnidadDAO;
+import com.adriYalan.gestionDeReclamos.repository.UsuarioDAO;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
@@ -21,13 +22,12 @@ public class PersonaService {
 
     @Autowired
     private PersonaDAO personaDAO;
-
     @Autowired
     private UnidadDAO unidadDAO;
     @Autowired
     private ReclamoService reclamoService;
     @Autowired
-    private UsuarioService usuarioService;
+    private UsuarioDAO usuarioDAO;
 
     public List<Persona> getAll() {
         return personaDAO.getAllPersonas();
@@ -51,9 +51,9 @@ public class PersonaService {
         //Elimino la lista de reclamo de la persona
         reclamoService.deleteReclamoList(persona.getReclamos());
         //Elimino el usuario Sistema de la persona si tiene creedenciales
-        Optional<Usuario> usuario = usuarioService.getUsuarioDocumento(documento);
+        Optional<Usuario> usuario = usuarioDAO.findByDocumento(documento);
         if (usuario.isPresent()) {
-            usuarioService.deleteUsuario(usuario.get().getEmail());
+            usuarioDAO.deleteUsuario(usuario.get().getEmail());
             //Elimino el usuario en firebase
             UserRecord userRecord = FirebaseAuth.getInstance().getUserByEmail(usuario.get().getEmail());
             FirebaseAuth.getInstance().deleteUser(userRecord.getUid());
