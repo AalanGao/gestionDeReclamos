@@ -50,12 +50,14 @@ public class PersonaService {
         this.eliminarUnidadRelacionado(persona);
         //Elimino la lista de reclamo de la persona
         reclamoService.deleteReclamoList(persona.getReclamos());
-        //Elimino el usuario Sistema de la persona
-        Usuario usuario = usuarioService.getUsuarioDocumento(documento);
-        usuarioService.deleteUsuario(usuario.getEmail());
-        //Elimino el usuario en firebase
-        UserRecord userRecord = FirebaseAuth.getInstance().getUserByEmail(usuario.getEmail());
-        FirebaseAuth.getInstance().deleteUser(userRecord.getUid());
+        //Elimino el usuario Sistema de la persona si tiene creedenciales
+        Optional<Usuario> usuario = usuarioService.getUsuarioDocumento(documento);
+        if (usuario.isPresent()) {
+            usuarioService.deleteUsuario(usuario.get().getEmail());
+            //Elimino el usuario en firebase
+            UserRecord userRecord = FirebaseAuth.getInstance().getUserByEmail(usuario.get().getEmail());
+            FirebaseAuth.getInstance().deleteUser(userRecord.getUid());
+        }
         //Elimino la persona en la tabla persona
         personaDAO.eliminarPersona(documento);
     }
