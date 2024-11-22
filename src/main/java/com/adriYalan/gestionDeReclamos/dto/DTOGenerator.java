@@ -98,7 +98,7 @@ public class DTOGenerator {
         return new ReclamoDTO(
                 reclamo.getIdReclamo(),
                 toPersonaSimpleDTO(reclamo.getPersona()),
-                reclamo.getUnidad() != null ? toEdificioSimpleDTO(reclamo.getUnidad().getEdificio()) : null,
+                reclamo.getEdificio() != null ? toEdificioSimpleDTO(reclamo.getEdificio()) : null,
                 reclamo.getUnidad() != null ? toUnidadSimpleDTO(reclamo.getUnidad()) : null,
                 reclamo.getDescripcion(),
                 reclamo.getTipoReclamo(),
