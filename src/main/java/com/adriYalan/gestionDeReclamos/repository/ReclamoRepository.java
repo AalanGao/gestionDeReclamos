@@ -18,4 +18,8 @@ public interface ReclamoRepository extends JpaRepository<Reclamo, Integer> {
 
     @Query("SELECT r FROM Reclamo r WHERE r.tipoReclamo.id = :idTipoReclamo")
     List<Reclamo> findReclamosByTipo(@Param("idTipoReclamo") int idTipoReclamo);
+
+
+
+
 }

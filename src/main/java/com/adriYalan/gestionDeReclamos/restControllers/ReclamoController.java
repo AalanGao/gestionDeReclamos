@@ -127,6 +127,11 @@ public class ReclamoController {
         return ResponseEntity.ok(DTOGenerator.toReclamoDTOList(reclamos));
     }
 
+
+
+
+
+
     private void saveImg(List<MultipartFile> imagenes, int idReclamo) throws IOException {
         if (imagenes != null && !imagenes.isEmpty()) {
             List<Imagen> listaImagenes = new ArrayList<>();
