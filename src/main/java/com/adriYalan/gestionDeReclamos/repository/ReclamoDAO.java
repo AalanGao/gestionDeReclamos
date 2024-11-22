@@ -45,6 +45,10 @@ public class ReclamoDAO {
         return reclamoRepository.findReclamosByEstado(idEstado);
     }
 
+    public List<Reclamo> ReclamosPorTipo(int idTipoEstado){
+        return reclamoRepository.findReclamosByTipo(idTipoEstado);
+    }
+
     public void eliminarReclamo(int idReclamo) {
         reclamoRepository.deleteById(idReclamo);
     }

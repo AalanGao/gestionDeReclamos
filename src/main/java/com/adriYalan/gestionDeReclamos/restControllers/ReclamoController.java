@@ -120,6 +120,13 @@ public class ReclamoController {
         return ResponseEntity.ok(DTOGenerator.toReclamoDTOList(reclamos));
     }
 
+    // Obtener lista de reclamos por tipo
+    @GetMapping("/tipo/{idTipoReclamo}")
+    public ResponseEntity<List<ReclamoDTO>> obtenerReclamosPorIdTipoReclamo(@PathVariable int idTipoReclamo) {
+        List<Reclamo> reclamos = reclamoService.obtenerReclamosPorTipo(idTipoReclamo);
+        return ResponseEntity.ok(DTOGenerator.toReclamoDTOList(reclamos));
+    }
+
     private void saveImg(List<MultipartFile> imagenes, int idReclamo) throws IOException {
         if (imagenes != null && !imagenes.isEmpty()) {
             List<Imagen> listaImagenes = new ArrayList<>();

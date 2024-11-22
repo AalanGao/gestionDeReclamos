@@ -109,7 +109,11 @@ public class ReclamoService {
     }
 
     public List<Reclamo> obtenerReclamosPorEstado(int idEstado) {
-        return reclamoDAO.ReclamosPorEstado(idEstado);
+        return reclamoDAO.ReclamosPorTipo(idEstado);
+    }
+
+    public List<Reclamo> obtenerReclamosPorTipo(int idTipoReclamo) {
+        return reclamoDAO.ReclamosPorTipo(idTipoReclamo);
     }
 
     public void deleteReclamoList(List<Reclamo> reclamos) throws ReclamoException {
