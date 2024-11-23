@@ -20,6 +20,7 @@ import com.google.firebase.auth.UserRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -116,11 +117,12 @@ public class AuthController {
         return ResponseEntity.ok(Map.of("message", "Login exitoso", "role", usuario.getRol()));
     }
 
+    @Transactional
     @DeleteMapping("/eliminar")
-    public ResponseEntity<String> eliminarUsuario(@RequestParam String mail) throws EdificioException, FirebaseAuthException {
-        usuarioService.deleteUsuario(mail);
+    public ResponseEntity<String> eliminarUsuario(@RequestParam String mail) throws FirebaseAuthException {
         UserRecord userRecord = FirebaseAuth.getInstance().getUserByEmail(mail);
         FirebaseAuth.getInstance().deleteUser(userRecord.getUid());
+        usuarioService.deleteUsuario(mail);
         return ResponseEntity.ok("Usuario Eliminado correctamente.");
     }
 
