@@ -21,6 +21,8 @@ public class EdificioService {
     private EdificioDAO edificioDAO;
     @Autowired
     private UnidadService unidadService;
+    @Autowired
+    private ReclamoService reclamoService;
 
     public List<Edificio> getEdificios() {
         return edificioDAO.getAllEdificios();
@@ -92,6 +94,7 @@ public class EdificioService {
         for (Unidad unidad : edificio.getUnidades()) {
             unidadService.eliminarUnidad(codigoEdificio, unidad.getPiso(), unidad.getNumero());
         }
+        reclamoService.deleteReclamoList(edificio.getReclamos());
         edificioDAO.eliminarEdificio(edificio.getCodigo());
     }
 }
